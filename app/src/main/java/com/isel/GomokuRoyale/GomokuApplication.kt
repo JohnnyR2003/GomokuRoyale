@@ -39,22 +39,21 @@ class GomokuApplication:Application(), DependenciesContainer{
 
     private val emulatedFirestoreDb: FirebaseFirestore by lazy {
         Firebase.firestore.also {
-            it.useEmulator("10.0.0.2", 8080)
+            it.useEmulator("10.0.2.2", 8080)
             it.firestoreSettings = FirebaseFirestoreSettings.Builder().setPersistenceEnabled(false)
                 .build()
         }
     }
 
     private val realFirestoreDb: FirebaseFirestore by lazy {
-        //Firebase.firestore
-        emulatedFirestoreDb
+        Firebase.firestore
     }
 
     override val match: Match
-        get() = MatchFirebase(realFirestoreDb)
+        get() = MatchFirebase(emulatedfirestoreDb)
 
     override val lobby: Lobby
-        get() = LobbyFirebase(realFirestoreDb)
+        get() = LobbyFirebase(emulatedfirestoreDb)
 
     override val loginService: LoginService
         get() = RealLoginService(OkHttpClient(), GsonBuilder().create())
