@@ -1,0 +1,47 @@
+<resources>
+    <string name="about_gomoku">About Gomoku Royale</string>
+    <string name="app_name">GomokuRoyale</string>
+    <string name="top_bar_go_back">Back</string>
+    <string name="top_bar_add_challenge">Add Challenge\n</string>
+    <string name="top_bar_navigate_to_about">About\n</string>
+    <string name="activity_info_no_suitable_app">Could not find a suitable application</string>
+    <string name="home_play_button">Play</string>
+    <string name="home_profile_button">Profile</string>
+    <string name="home_leaderboard_button">Leaderboard</string>
+    <string name="home_signinup_button">SignIn / SignUp</string>
+    <string name="home_exit_button">EXIT</string>
+    <string name="leaderboard_searchforplayer">Search for a Player:</string>
+    <string name="leaderboard_name">Name:</string>
+    <string name="leaderboard_leaderboard">Leaderboard</string>
+    <string name="utils_loading">Loading...</string>
+    <string name="lobby_shotsperround">Shots Per Round =</string>
+    <string name="lobby_variant">MODE</string>
+    <string name="lobby_lobby">Lobby</string>
+    <string name="login_please_introduce_your_credentials">Please Introduce Your Credentials</string>
+    <string name="login_username">Username:</string>
+    <string name="login_password">Password:</string>
+    <string name="login_hide_pass">Hide Password</string>
+    <string name="login_show_password">Show Password</string>
+    <string name="login_register_button">Register</string>
+    <string name="login_signin_button">Sign In</string>
+    <string name="utils_waiting">Waiting...</string>
+    <string name="failed_to_read_preferences_error_dialog_title">Fatal Error</string>
+    <string name="failed_to_read_preferences_error_dialog_text">Failed to read local data store</string>
+    <string name="failed_to_read_preferences_error_dialog_ok_button">OK</string>
+    <string name="preferences_screen_title">How others see you</string>
+    <string name="preferences_screen_nickname_tip">Your nickname</string>
+    <string name="preferences_screen_pass_tip">Your password</string>
+    <string name="preferences_screen_status_tip">Your status</string>
+    <string name="game_screen_your_turn">"it's your turn"</string>
+    <string name="game_screen_opponent_turn">"it's your opponent's turn"</string>
+    <string name="game_screen_forfeit">"forfeit"</string>
+    <string name="game_screen_waiting">"Waiting for player"</string>
+    <string name="match_ended_dialog_text_tied_match">"match ended in a tie"</string>
+    <string name="match_ended_dialog_text_local_won">"match ended and local won"</string>
+    <string name="match_ended_dialog_text_opponent_won">"match ended and opponent won"</string>
+    <string name="match_ended_ok_button">"match ended press OK"</string>
+    <string name="match_ended_dialog_title">"match ended"</string>starting_match_cancel_button
+    <string name="starting_match_cancel_button">"press to cancel match"</string>
+    <string name="starting_match_dialog_title">"Starting Match"</string>
+    <string name="starting_match_dialog_text">"Start Match"</string>
+</resources>

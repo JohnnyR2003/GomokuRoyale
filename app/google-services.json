@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "516802022134",
+    "project_id": "gomokuroyaleapp",
+    "storage_bucket": "gomokuroyaleapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:516802022134:android:9654054f9de0b92651fad7",
+        "android_client_info": {
+          "package_name": "com.isel.GomokuRoyale"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "516802022134-h2rt3kdc8hk9u161eii98k6mr50bkh1d.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.isel.GomokuRoyale",
+            "certificate_hash": "f31b7d9dbb4c85e23d01a8b70d1b43e3371cc2a2"
+          }
+        },
+        {
+          "client_id": "516802022134-gp6l77rcaig6sp6gdan05qmo5b17pn1i.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAVKYQctcClRsRyl37Urnnc4cGBu_2SFVI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "516802022134-gp6l77rcaig6sp6gdan05qmo5b17pn1i.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
