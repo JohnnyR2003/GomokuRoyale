@@ -50,10 +50,10 @@ class GomokuApplication:Application(), DependenciesContainer{
     }
 
     override val match: Match
-        get() = MatchFirebase(emulatedfirestoreDb)
+        get() = MatchFirebase(emulatedFirestoreDb)
 
     override val lobby: Lobby
-        get() = LobbyFirebase(emulatedfirestoreDb)
+        get() = LobbyFirebase(emulatedFirestoreDb)
 
     override val loginService: LoginService
         get() = RealLoginService(OkHttpClient(), GsonBuilder().create())
