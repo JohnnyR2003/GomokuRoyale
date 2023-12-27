@@ -38,10 +38,10 @@ const val HomeScreenTag = "HomeScreen"
 @Composable
 fun HomeView(
     state: HomeScreenState = HomeScreenState(),
-    onLogoutRequest: () -> Unit,
+    //onLogoutRequest: () -> Unit,
     //onMeRequest: () -> Unit,
     onFindGameRequest: () -> Unit,
-    onLeaderboardRequest: () -> Unit,
+    //onLeaderboardRequest: () -> Unit,
     onInfoRequest: () -> Unit,
    // onSignInOrSignUpRequest: () -> Unit,
     onExitRequest: () -> Unit
@@ -55,7 +55,7 @@ fun HomeView(
                 if (state.loggedState) {
                     TopBar(
                         NavigationHandlers(
-                            onLogoutRequested = { onLogoutRequest() },
+                            onLogoutRequested = { /*onLogoutRequest()*/ },
                             onInfoRequested = { onInfoRequest() }),
                         ""
                     )
@@ -92,11 +92,11 @@ fun HomeView(
                     state = state.loggedState,
                     testTag = "ProfileButton"
 
-                )*/
+                )
                 ButtonView(onClickRequest = { onLeaderboardRequest() },
                     name = stringResource(id = R.string.home_leaderboard_button),
                     testTag = "LeaderboardButton"
-                )/*
+                )
                 if (!state.loggedState) {
                     ButtonView(
                         onClickRequest = { onSignInOrSignUpRequest() },
@@ -159,10 +159,10 @@ fun ButtonView(onClickRequest: () -> Unit, name: String, state: Boolean? = null,
 private fun HomePreviewLoggedIn() {
     HomeView(
         state = HomeScreenState(UserInfo("Teste", "Teste"), true),
-        onLogoutRequest = {},
+        //onLogoutRequest = {},
        // onMeRequest = {},
         onFindGameRequest = {},
-        onLeaderboardRequest = {},
+        //onLeaderboardRequest = {},
         onInfoRequest = {},
        // onSignInOrSignUpRequest = {},
         onExitRequest = {}
@@ -175,10 +175,10 @@ private fun HomePreviewLoggedOut() {
     GomokuRoyaleTheme {
         HomeView(
             state = HomeScreenState(null, false),
-            onLogoutRequest = {},
+            //onLogoutRequest = {},
            // onMeRequest = {},
             onFindGameRequest = {},
-            onLeaderboardRequest = {},
+            //onLeaderboardRequest = {},
             onInfoRequest = {},
            // onSignInOrSignUpRequest = {},
             onExitRequest = {}

@@ -18,6 +18,7 @@ import com.isel.GomokuRoyale.lobby.domain.Challenge
 import com.isel.GomokuRoyale.lobby.domain.PlayerInfo
 import com.isel.GomokuRoyale.preferences.model.UserInfo
 import com.isel.GomokuRoyale.utils.viewModelInit
+import model.Game
 import model.getResult
 import ui.GameScreenViewModel
 import ui.MatchEndedDialog
@@ -100,14 +101,14 @@ class GameActivity: ComponentActivity() {
 
     private val localPlayer: PlayerInfo by lazy {
         PlayerInfo(
-            info = UserInfo(matchInfo.localPlayerNick, " "),  /**ver bearer está diferente**/
+            info = UserInfo(matchInfo.localPlayerNick, "test"),  /**ver bearer está diferente**/
             id = UUID.fromString(matchInfo.localPlayerId)
         )
     }
 
     private val challenge: Challenge by lazy {
         val opponent = PlayerInfo(
-            info = UserInfo(matchInfo.opponentNick," "),    /**ver bearer está diferente**/
+            info = UserInfo(matchInfo.opponentNick,"test"),    /**ver bearer está diferente**/
             id = UUID.fromString(matchInfo.opponentId)
         )
 

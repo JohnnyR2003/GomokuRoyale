@@ -26,8 +26,8 @@ const val TAG = "GomokuApp"
 
 interface DependenciesContainer {
 
-    val loginService : LoginService
-    val leaderboardService: LeaderboardService
+    //val loginService : LoginService
+    //val leaderboardService: LeaderboardService
     val userInfoRepo : UserInfoRepository
     val lobby: Lobby
     val match: Match
@@ -39,29 +39,30 @@ class GomokuApplication:Application(), DependenciesContainer{
 
     private val emulatedFirestoreDb: FirebaseFirestore by lazy {
         Firebase.firestore.also {
-            it.useEmulator("10.0.0.2", 8080)
+            it.useEmulator("10.0.2.2", 8080)
             it.firestoreSettings = FirebaseFirestoreSettings.Builder().setPersistenceEnabled(false)
                 .build()
         }
     }
 
     private val realFirestoreDb: FirebaseFirestore by lazy {
-        //Firebase.firestore
-        emulatedFirestoreDb
+        Firebase.firestore
     }
 
     override val match: Match
-        get() = MatchFirebase(realFirestoreDb)
+        get() = MatchFirebase(emulatedFirestoreDb)
 
     override val lobby: Lobby
-        get() = LobbyFirebase(realFirestoreDb)
+        get() = LobbyFirebase(emulatedFirestoreDb)
 
+
+/*
     override val loginService: LoginService
         get() = RealLoginService(OkHttpClient(), GsonBuilder().create())
 
     override val leaderboardService: LeaderboardService
         get() = FakeLeaderboardService()
-
+*/
     override val userInfoRepo: UserInfoRepository
         get() = UserInfoSharedPrefs(this)
 

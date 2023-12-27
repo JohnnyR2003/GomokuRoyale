@@ -27,9 +27,15 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import com.isel.GomokuRoyale.R
+import com.isel.GomokuRoyale.game.ui.GameActivity
+import com.isel.GomokuRoyale.lobby.domain.Challenge
+import com.isel.GomokuRoyale.lobby.domain.PlayerInfo
+import com.isel.GomokuRoyale.lobby.model.IncomingChallenge
+import java.util.UUID
 
 
-class HomeActivity() : ComponentActivity() {
+class
+HomeActivity() : ComponentActivity() {
 
     companion object {
         fun navigateTo(origin: ComponentActivity) {
@@ -70,22 +76,25 @@ private val vm by viewModels<HomeViewModel> {
             val loggedState by vm.isLoggedIn.collectAsState()
             HomeView(
                 state = HomeScreenState(null, loggedState),
-                onLogoutRequest = {
+                /*onLogoutRequest = {
                      vm.logout()
                 },
-                /*  onMeRequest = { onBackPressed() }   {
+                  onMeRequest = { onBackPressed() }   {
                       if (loggedState)
                           MeActivity.navigateTo(this)
                       else
                           LoginActivity.navigateTo(this)
                   ,*/
                 onFindGameRequest = {
-                    if (loggedState)
-                        LobbyActivity.navigateTo(this)
-                    else
-                        PreferencesActivity.navigateTo(this)
+                    GameActivity.navigate(
+                        this,
+                        PlayerInfo(UserInfo("player1","hi"), UUID.randomUUID()),
+                        Challenge(PlayerInfo(UserInfo("player1","hi")),PlayerInfo(UserInfo("player2","hi")
+                            )
+                        )
+                    )
                 },
-                onLeaderboardRequest = { LeaderboardActivity.navigateTo(this) },
+               // onLeaderboardRequest = { LeaderboardActivity.navigateTo(this) },
                 onInfoRequest = { AboutActivity.navigateTo(this) },
                /* onSignInOrSignUpRequest = {
                     if (!loggedState)

@@ -21,6 +21,8 @@ import model.MoveMade
 import model.Player
 import model.getLocalPlayerMarker
 import model.makeMove
+import model.toOpeningRule
+import model.toVariante
 import model.variantes
 
 class MatchFirebase(private val db: FirebaseFirestore) : Match {
@@ -85,6 +87,8 @@ class MatchFirebase(private val db: FirebaseFirestore) : Match {
                 if (localPlayer == challenge.challenged)
                     publishGame(newGame, gameId)
 
+
+                //publishGame(newGame, gameId)
                 gameSubscription = subscribeGameStateUpdated(
                     localPlayerMarker = newGame.localPlayer,
                     gameId = gameId,
@@ -145,8 +149,12 @@ const val OPENINGRULE_FIELD = "openingrule"
  */
 fun Board.toDocumentContent() = mapOf(
     TURN_FIELD to turn.name,
-    BOARD_FIELD to toMovesList().joinToString(separator = ",")
+    BOARD_FIELD to toMovesList().joinToString(separator = ","),
+    OPENINGRULE_FIELD to openingrule.name,
+    VARIANT_FIELD to variantes.name
+
 )
+
 
 /**
  * Extension function to convert documents stored in the Firestore DB
@@ -154,8 +162,8 @@ fun Board.toDocumentContent() = mapOf(
  */
 fun DocumentSnapshot.toMatchStateOrNull(): Pair<Board, Player?>? =
     data?.let {
-        val openingrule = it[OPENINGRULE_FIELD] as model.openingrule
-        val variante = it[VARIANT_FIELD] as variantes
+        val openingrule = it[OPENINGRULE_FIELD].toString().toOpeningRule()
+        val variante = it[VARIANT_FIELD].toString().toVariante()
         val moves = it[BOARD_FIELD] as String
         val turn = Player.valueOf(it[TURN_FIELD] as String)
         val forfeit = it[FORFEIT_FIELD] as String?
