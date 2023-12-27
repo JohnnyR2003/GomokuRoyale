@@ -22,7 +22,6 @@ data class Board(
 ) {
 
     companion object {
-
         fun fromMovesList(turn: Player,variantes: variantes,openingrule: openingrule, moves: List<String>) = Board(
             turn = turn,
             variantes,
