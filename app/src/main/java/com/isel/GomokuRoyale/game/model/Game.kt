@@ -27,7 +27,7 @@ data class Game(
  */
 fun Game.makeMove(at: Coordinate): Game {
     check(localPlayer == board.turn)
-    return copy(board = board.makeMove(at))
+    return copy(board = board.makeMove(at), localPlayer = localPlayer.other())
 }
 
 /**
