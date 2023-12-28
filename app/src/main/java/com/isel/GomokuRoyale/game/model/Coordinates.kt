@@ -6,7 +6,7 @@ package model
 //const val BOARD_SIDE = 3
 
 /**
- * Represents coordinates in the Tic-Tac-Toe board
+ * Represents coordinates in the Gomoku board
  */
 data class Coordinate(val row: Int, val column: Int,val boardSize:Int) {
     init {

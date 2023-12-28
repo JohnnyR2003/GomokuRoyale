@@ -77,18 +77,17 @@ class MatchFirebase(private val db: FirebaseFirestore) : Match {
 
         return callbackFlow {
             val newGame = Game(
-                localPlayer = getLocalPlayerMarker(localPlayer, challenge),
+                localPlayer = getLocalPlayerMarker(localPlayer),
                 board = Board()
             )
             val gameId = challenge.challenger.id.toString()
 
             var gameSubscription: ListenerRegistration? = null
             try {
-                if (localPlayer == challenge.challenged)
-                    publishGame(newGame, gameId)
+                publishGame(newGame, gameId)
 
 
-                //publishGame(newGame, gameId)
+
                 gameSubscription = subscribeGameStateUpdated(
                     localPlayerMarker = newGame.localPlayer,
                     gameId = gameId,

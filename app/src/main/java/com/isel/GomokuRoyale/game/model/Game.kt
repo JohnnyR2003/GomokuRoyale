@@ -33,9 +33,8 @@ fun Game.makeMove(at: Coordinate): Game {
 /**
  * Gets which marker is to be assigned to the local player for the given challenge.
  */
-fun getLocalPlayerMarker(localPlayer: PlayerInfo, challenge: Challenge) =
-    if (localPlayer == challenge.firstToMove) Player.firstToMove
-    else Player.firstToMove.other()
+fun getLocalPlayerMarker(localPlayer: PlayerInfo) = Player.BLACK
+
 
 /**
  * Gets the game current result
