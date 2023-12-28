@@ -1,6 +1,5 @@
 package model
 
-import com.isel.GomokuRoyale.game.adapters.BOARD_FIELD
 import kotlin.math.abs
 
 /**
@@ -27,11 +26,11 @@ data class Board(
             variantes,
             openingrule,
             if (variantes ==model.variantes.OMOK)19 else 15,
-            moves = buildMap {
-                var i =0
+            moves = if(moves.size==0) emptyMap()
+            else buildMap{
+                var i =0  //0
                 //val moves = emptyMap<Cell,Player>().toMutableMap()
                 while (i < moves.size){//1A 10A
-
                     val pairParts = moves[i].split(':')
                     val rowNumbers =  pairParts[0].getUntilLetter()
                     val row = rowNumbers.toInt() -1
@@ -87,7 +86,7 @@ data class Board(
     private fun openingRuleVerify( at: Coordinate): Boolean {
         when(openingrule){
             model.openingrule.PRO ->{
-                val elementCount = countBoardElementes()
+                val elementCount = countBoardElements()
                 if (elementCount==0){
                 val middleIndex = boardSize /2
                 return at == Coordinate(middleIndex,middleIndex,boardSize)
@@ -97,7 +96,7 @@ data class Board(
             }else return true
             }
             model.openingrule.LONGPRO->{
-                val elementCount = countBoardElementes()
+                val elementCount = countBoardElements()
                 if (elementCount==0){
                     val middleIndex = boardSize/2
                     return at == Coordinate(middleIndex,middleIndex,boardSize)
@@ -114,14 +113,13 @@ data class Board(
         return if (rowdist>=coldist) rowdist else coldist
     }
 
-    private fun countBoardElementes():Int=moves.size
+    private fun countBoardElements():Int=moves.size
 
     /**
      * Converts this instance to a list of moves.
      */
-    fun toMovesList(): List<Player?> = List(boardSize*boardSize) { index ->
-        val coordinate = Coordinate(index / boardSize, index % boardSize,boardSize)
-        this[coordinate]
+    fun toMovesList(): List<String> = moves.map {it
+        ->""+ it.key.row + ('A' + it.key.column) +':'+ it.value.char
     }
 
 

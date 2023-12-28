@@ -12,11 +12,13 @@ enum class Player(val char: Char)  {
     fun other() = when (this) {
         BLACK -> WHITE
         WHITE -> BLACK
+
     }
 
     fun toChar() = when (this) {
         BLACK -> 'B'
         WHITE -> 'W'
+
     }
 
 
