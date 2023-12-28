@@ -5,8 +5,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.isel.GomokuRoyale.lobby.domain.Challenge
-import com.isel.GomokuRoyale.lobby.domain.PlayerInfo
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -17,6 +15,7 @@ import model.GameEnded
 import model.GameStarted
 import model.Match
 import model.OnGoing
+import model.Player
 import model.getResult
 
 /**
@@ -36,11 +35,11 @@ class GameScreenViewModel(private val match: Match) : ViewModel() {
     val state: MatchState
         get() = _state
 
-    fun startMatch(localPlayer: PlayerInfo, challenge: Challenge): Job? =
+    fun startMatch(localPlayer: Player): Job? =
         if (state == MatchState.IDLE) {
             _state = MatchState.STARTING
             viewModelScope.launch {
-                match.start(localPlayer, challenge).collect {
+                match.start(localPlayer).collect {
                     _onGoingGame.value = it.game
                     _state = when (it) {
                         is GameStarted -> MatchState.STARTED

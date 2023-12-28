@@ -1,7 +1,6 @@
 package model
 
-import com.isel.GomokuRoyale.lobby.domain.Challenge
-import com.isel.GomokuRoyale.lobby.domain.PlayerInfo
+
 import kotlinx.coroutines.flow.Flow
 import model.Player
 
@@ -31,7 +30,7 @@ interface Match {
      * @return the flow of game state change events, expressed as [GameEvent] instances
      * @throws IllegalStateException if a game is in progress
      */
-    fun start(localPlayer: PlayerInfo, challenge: Challenge): Flow<GameEvent>
+    fun start(localPlayer: Player): Flow<GameEvent>
 
     /**
      * Makes a move at the given coordinates.

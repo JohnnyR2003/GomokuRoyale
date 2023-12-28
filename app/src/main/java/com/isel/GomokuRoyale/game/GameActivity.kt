@@ -14,11 +14,10 @@ import androidx.compose.runtime.getValue
 import kotlinx.parcelize.Parcelize
 import com.isel.GomokuRoyale.DependenciesContainer
 import com.isel.GomokuRoyale.R
-import com.isel.GomokuRoyale.lobby.domain.Challenge
-import com.isel.GomokuRoyale.lobby.domain.PlayerInfo
 import com.isel.GomokuRoyale.preferences.model.UserInfo
 import com.isel.GomokuRoyale.utils.viewModelInit
 import model.Game
+import model.Player
 import model.getResult
 import ui.GameScreenViewModel
 import ui.MatchEndedDialog
@@ -39,11 +38,11 @@ class GameActivity: ComponentActivity() {
 
     companion object {
         const val MATCH_INFO_EXTRA = "MATCH_INFO_EXTRA"
-        fun navigate(origin: Context, localPlayer: PlayerInfo, challenge: Challenge) {
+        fun navigate(origin: Context, localPlayer: Player) {
             with(origin) {
                 startActivity(
                     Intent(this, GameActivity::class.java).also {
-                        it.putExtra(MATCH_INFO_EXTRA, MatchInfo(localPlayer, challenge))
+                        it.putExtra(MATCH_INFO_EXTRA, MatchInfo(localPlayer.toString(), localPlayer.other().toString()))
                     }
                 )
             }
@@ -75,12 +74,13 @@ class GameActivity: ComponentActivity() {
                     result = currentGame.getResult(),
                     onDismissRequested = { finish() }
                 )
-                else -> { }
+
+                else -> {}
             }
         }
 
         if (viewModel.state == MatchState.IDLE)
-            viewModel.startMatch(localPlayer, challenge)
+            viewModel.startMatch(localPlayer = Player.BLACK)
 
         onBackPressedDispatcher.addCallback(owner = this, enabled = true) {
             viewModel.forfeit()
@@ -99,47 +99,24 @@ class GameActivity: ComponentActivity() {
         checkNotNull(info)
     }
 
-    private val localPlayer: PlayerInfo by lazy {
-        PlayerInfo(
-            info = UserInfo(matchInfo.localPlayerNick, "test"),  /**ver bearer está diferente**/
-            id = UUID.fromString(matchInfo.localPlayerId)
-        )
+
+    @Parcelize
+    internal data class MatchInfo(
+        val localPlayerId: String,
+        val opponentId: String
+
+    ) : Parcelable
+
+    internal fun MatchInfo(localPlayer: Player): MatchInfo {
+        val opponent = localPlayer.other()
+
+        return MatchInfo(
+            localPlayerId = localPlayer.toString(),
+
+            opponentId = opponent.toString(),
+
+            )
     }
-
-    private val challenge: Challenge by lazy {
-        val opponent = PlayerInfo(
-            info = UserInfo(matchInfo.opponentNick,"test"),    /**ver bearer está diferente**/
-            id = UUID.fromString(matchInfo.opponentId)
-        )
-
-        if (localPlayer.id.toString() == matchInfo.challengerId)
-            Challenge(challenger = localPlayer, challenged = opponent)
-        else
-            Challenge(challenger = opponent, challenged = localPlayer)
-    }
-}
-
-@Parcelize
-internal data class MatchInfo(
-    val localPlayerId: String,
-    val localPlayerNick: String,
-    val opponentId: String,
-    val opponentNick: String,
-    val challengerId: String,
-) : Parcelable
-
-internal fun MatchInfo(localPlayer: PlayerInfo, challenge: Challenge): MatchInfo {
-    val opponent =
-        if (localPlayer == challenge.challenged) challenge.challenger
-        else challenge.challenged
-
-    return MatchInfo(
-        localPlayerId = localPlayer.id.toString(),
-        localPlayerNick = localPlayer.info.username,
-        opponentId = opponent.id.toString(),
-        opponentNick = opponent.info.username,
-        challengerId = challenge.challenger.id.toString(),
-    )
 }
 
 
