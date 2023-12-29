@@ -24,7 +24,7 @@ class HomeViewModel(userRepo: UserInfoRepository):ViewModel(){
     }
 
 
-    private var _isLoggedIn = MutableStateFlow<Boolean>(runBlocking<Boolean>{ userRepo.userInfo != null })
+    private var _isLoggedIn = MutableStateFlow<Boolean>(runBlocking<Boolean>{ userRepo.getUserInfo() != null })
     val isLoggedIn = _isLoggedIn.asStateFlow()
 
     private val _userInfoFlow: MutableStateFlow<IOState<UserInfo?>> = MutableStateFlow(idle())

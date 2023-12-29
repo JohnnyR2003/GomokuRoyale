@@ -9,6 +9,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import model.Board
 import model.Coordinate
 import model.Game
 import model.GameEnded
@@ -17,6 +18,7 @@ import model.Match
 import model.OnGoing
 import model.Player
 import model.getResult
+import java.util.UUID
 
 /**
  * Represents the current match state
@@ -35,11 +37,11 @@ class GameScreenViewModel(private val match: Match) : ViewModel() {
     val state: MatchState
         get() = _state
 
-    fun startMatch(localPlayer: Player): Job? =
+    fun startMatch(localPlayer: Player, gameId :UUID = UUID.randomUUID(), board: Board): Job? =
         if (state == MatchState.IDLE) {
             _state = MatchState.STARTING
             viewModelScope.launch {
-                match.start(localPlayer).collect {
+                match.start(localPlayer,gameId, board).collect {
                     _onGoingGame.value = it.game
                     _state = when (it) {
                         is GameStarted -> MatchState.STARTED
@@ -52,6 +54,7 @@ class GameScreenViewModel(private val match: Match) : ViewModel() {
 
                     if (_state == MatchState.FINISHED)
                         match.end()
+
                 }
             }
         }

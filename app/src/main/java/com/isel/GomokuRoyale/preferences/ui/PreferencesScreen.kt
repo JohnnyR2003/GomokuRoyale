@@ -4,19 +4,15 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.sizeIn
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Comment
-import androidx.compose.material.icons.filled.Face
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.ExposedDropdownMenuBox
+import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -25,16 +21,12 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.isel.GomokuRoyale.R
 import com.isel.GomokuRoyale.preferences.model.UserInfo
 import com.isel.GomokuRoyale.preferences.model.userInfoOrNull
 import com.isel.GomokuRoyale.ui.EditFab
 import com.isel.GomokuRoyale.ui.FabMode
-import com.isel.GomokuRoyale.ui.IsReadOnly
 import com.isel.GomokuRoyale.ui.NavigationHandlers
 import com.isel.GomokuRoyale.ui.TopBar
 import com.isel.GomokuRoyale.ui.theme.GomokuRoyaleTheme
@@ -53,13 +45,15 @@ fun PreferencesScreen(
 ) {
     GomokuRoyaleTheme {
 
-        var displayedNick by remember { mutableStateOf(userInfo?.username ?: "") }
-        var displayedStatus by remember { mutableStateOf(userInfo?.status ?: "") }
+        var variantIsExpanded by remember { mutableStateOf(false) }
+        var openingruleIsExpanded by remember { mutableStateOf(false) }
+        var option1 by remember { mutableStateOf(userInfo?.variante ?: "") }
+        var option2 by remember { mutableStateOf(userInfo?.openingrule ?: "") }
         var editing by remember { mutableStateOf(userInfo == null) }
 
         val enteredInfo = userInfoOrNull(
-            username = displayedNick.trim(),
-            status = displayedStatus.trim()
+            variante = option1.trim(),
+            openingrule = option2.trim()
         )
 
         Scaffold(
@@ -84,49 +78,90 @@ fun PreferencesScreen(
                     .padding(innerPadding)
                     .fillMaxSize(),
             ) {
-                Text(
-                    text = stringResource(id = R.string.preferences_screen_title),
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.primary
-                )
-                Spacer(modifier = Modifier.height(50.dp))
+                Text(text = "Your game's variant")
+                Spacer(modifier = Modifier.height(8.dp))
+                ExposedDropdownMenuBox(
+                    expanded = variantIsExpanded,
+                    onExpandedChange = { variantIsExpanded = it },
+                ) {
+                    TextField(
+                        value = option1,
+                        onValueChange = {},
+                        readOnly = true,
+                        trailingIcon = {
+                            ExposedDropdownMenuDefaults.TrailingIcon(expanded = variantIsExpanded)
+                        },
+                        colors = ExposedDropdownMenuDefaults.textFieldColors(),
+                        modifier = Modifier.menuAnchor()
+                        )
 
-                OutlinedTextField(
-                    value = displayedNick,
-                    onValueChange = { displayedNick = ensureInputBounds(it) },
-                    singleLine = true,
-                    label = {
-                        Text(stringResource(id = R.string.preferences_screen_nickname_tip))
-                    },
-                    leadingIcon = {
-                        Icon(Icons.Default.Face, contentDescription = "")
-                    },
-                    readOnly = !editing,
-                    modifier = Modifier
-                        .padding(horizontal = 48.dp)
-                        .fillMaxWidth()
-                        .testTag(NicknameInputTag)
-                        .semantics { if (!editing) this[IsReadOnly] = Unit }
-                )
-                OutlinedTextField(
-                    value = displayedStatus,
-                    onValueChange = { displayedStatus = ensureInputBounds(it) },
-                    maxLines = 3,
-                    label = { Text(stringResource(id = R.string.preferences_screen_status_tip)) },
-                    leadingIcon = {
-                        Icon(Icons.Default.Comment, contentDescription = "")
-                    },
-                    readOnly = !editing,
-                    modifier = Modifier
-                        .padding(horizontal = 48.dp)
-                        .fillMaxWidth()
-                        .testTag(MotoInputTag)
-                        .semantics { if (!editing) this[IsReadOnly] = Unit }
-                )
-                Spacer(
-                    modifier = Modifier
-                        .sizeIn(minHeight = 128.dp, maxHeight = 256.dp)
-                )
+                    ExposedDropdownMenu(
+                        expanded = variantIsExpanded,
+                        onDismissRequest = { variantIsExpanded = false }
+                    ) {
+                        DropdownMenuItem(
+                            text = {
+                                Text(text = "NORMAL")
+                            },
+                            onClick = {
+                                option1 = "NORMAL"
+                                variantIsExpanded = !variantIsExpanded
+                            }
+                        )
+                        DropdownMenuItem(
+                            text = {
+                                Text(text = "OMOK")
+                            },
+                            onClick = {
+                                option1 = "OMOK"
+                                variantIsExpanded = !variantIsExpanded
+                            }
+                        )
+                    }
+                }
+
+                Spacer(modifier = Modifier.height(48.dp))
+
+                Text(text = "Your game's opening rule")
+                Spacer(modifier = Modifier.height(8.dp))
+                ExposedDropdownMenuBox(
+                    expanded = openingruleIsExpanded,
+                    onExpandedChange = { openingruleIsExpanded = it },
+                ) {
+                    TextField(
+                        value = option2,
+                        onValueChange = {},
+                        readOnly = true,
+                        trailingIcon = {
+                            ExposedDropdownMenuDefaults.TrailingIcon(expanded = openingruleIsExpanded)
+                        },
+                        colors = ExposedDropdownMenuDefaults.textFieldColors(),
+                        modifier = Modifier.menuAnchor()
+                        )
+                    ExposedDropdownMenu(
+                        expanded = openingruleIsExpanded,
+                        onDismissRequest = { openingruleIsExpanded = false }
+                    ) {
+                        DropdownMenuItem(
+                            text = {
+                                Text(text = "PRO")
+                            },
+                            onClick = {
+                                option2 = "PRO"
+                                openingruleIsExpanded = !openingruleIsExpanded
+                            }
+                        )
+                        DropdownMenuItem(
+                            text = {
+                                Text(text = "LONGPRO")
+                            },
+                            onClick = {
+                                option2 = "LONGPRO"
+                                openingruleIsExpanded = !openingruleIsExpanded
+                            }
+                        )
+                    }
+                }
             }
         }
     }
@@ -142,7 +177,7 @@ private fun ensureInputBounds(input: String) =
 @Composable
 private fun PreferencesScreenViewModePreview() {
     PreferencesScreen(
-        userInfo = UserInfo("my nick", "my moto"),
+        userInfo = UserInfo("OMOK", "LONGPRO"),
         onSaveRequested = { }
     )
 }

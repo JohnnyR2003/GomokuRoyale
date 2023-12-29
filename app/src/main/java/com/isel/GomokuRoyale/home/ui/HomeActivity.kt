@@ -18,9 +18,6 @@ import com.isel.GomokuRoyale.game.Loaded
 import com.isel.GomokuRoyale.game.getOrNull
 import com.isel.GomokuRoyale.game.idle
 import com.isel.GomokuRoyale.home.model.HomeViewModel
-import com.isel.GomokuRoyale.leaderboard.ui.LeaderboardActivity
-import com.isel.GomokuRoyale.lobby.ui.LobbyActivity
-import com.isel.GomokuRoyale.preferences.model.PreferencesActivity
 import com.isel.GomokuRoyale.preferences.model.UserInfo
 import com.isel.GomokuRoyale.ui.ErrorAlert
 import kotlinx.coroutines.delay
@@ -28,9 +25,8 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import com.isel.GomokuRoyale.R
 import com.isel.GomokuRoyale.game.ui.GameActivity
-import com.isel.GomokuRoyale.lobby.domain.Challenge
-import com.isel.GomokuRoyale.lobby.domain.PlayerInfo
-import com.isel.GomokuRoyale.lobby.model.IncomingChallenge
+import com.isel.GomokuRoyale.preferences.model.PreferencesActivity
+import model.Player
 import java.util.UUID
 
 
@@ -86,13 +82,7 @@ private val vm by viewModels<HomeViewModel> {
                           LoginActivity.navigateTo(this)
                   ,*/
                 onFindGameRequest = {
-                    GameActivity.navigate(
-                        this,
-                        PlayerInfo(UserInfo("player1","hi"), UUID.randomUUID()),
-                        Challenge(PlayerInfo(UserInfo("player1","hi")),PlayerInfo(UserInfo("player2","hi")
-                            )
-                        )
-                    )
+                    doNavigation(userInfo = userInfo.getOrNull())
                 },
                // onLeaderboardRequest = { LeaderboardActivity.navigateTo(this) },
                 onInfoRequest = { AboutActivity.navigateTo(this) },
@@ -117,7 +107,12 @@ private val vm by viewModels<HomeViewModel> {
         if (userInfo == null)
             PreferencesActivity.navigateTo(this)
         else
-            LobbyActivity.navigateTo(this)
+            GameActivity.navigate(
+                this,
+                Player.BLACK,
+                userInfo.variante,
+                userInfo.openingrule
+            )
     }
 
     private fun setupSplashScreen() {

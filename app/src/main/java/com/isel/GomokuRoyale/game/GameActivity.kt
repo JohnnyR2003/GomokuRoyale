@@ -16,9 +16,14 @@ import com.isel.GomokuRoyale.DependenciesContainer
 import com.isel.GomokuRoyale.R
 import com.isel.GomokuRoyale.preferences.model.UserInfo
 import com.isel.GomokuRoyale.utils.viewModelInit
+import model.Board
 import model.Game
 import model.Player
 import model.getResult
+import model.openingrule
+import model.toOpeningRule
+import model.toVariante
+import model.variantes
 import ui.GameScreenViewModel
 import ui.MatchEndedDialog
 import ui.MatchState
@@ -38,11 +43,11 @@ class GameActivity: ComponentActivity() {
 
     companion object {
         const val MATCH_INFO_EXTRA = "MATCH_INFO_EXTRA"
-        fun navigate(origin: Context, localPlayer: Player) {
+        fun navigate(origin: Context, localPlayer: Player, variante: String , openingRule: String) {
             with(origin) {
                 startActivity(
                     Intent(this, GameActivity::class.java).also {
-                        it.putExtra(MATCH_INFO_EXTRA, MatchInfo(localPlayer.toString(), localPlayer.other().toString()))
+                        it.putExtra(MATCH_INFO_EXTRA, MatchInfo(localPlayer.toString(), localPlayer.other().toString(),variante,openingRule))
                     }
                 )
             }
@@ -80,7 +85,7 @@ class GameActivity: ComponentActivity() {
         }
 
         if (viewModel.state == MatchState.IDLE)
-            viewModel.startMatch(localPlayer = Player.BLACK)
+            viewModel.startMatch(localPlayer = Player.BLACK, board = board)
 
         onBackPressedDispatcher.addCallback(owner = this, enabled = true) {
             viewModel.forfeit()
@@ -100,22 +105,28 @@ class GameActivity: ComponentActivity() {
     }
 
 
+    private val board : Board by lazy {
+        Board(variantes = matchInfo.variant.toVariante(), openingrule = matchInfo.openingRule.toOpeningRule())
+    }
+
     @Parcelize
     internal data class MatchInfo(
         val localPlayerId: String,
-        val opponentId: String
+        val opponentId: String,
+        val variant: String,
+        val openingRule: String
 
     ) : Parcelable
 
-    internal fun MatchInfo(localPlayer: Player): MatchInfo {
+    private fun MatchInfo(localPlayer: Player, variante: String, openingRule: String): MatchInfo {
         val opponent = localPlayer.other()
 
         return MatchInfo(
             localPlayerId = localPlayer.toString(),
-
             opponentId = opponent.toString(),
-
-            )
+            variant = variante,
+            openingRule = openingRule
+        )
     }
 }
 

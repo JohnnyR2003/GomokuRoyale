@@ -52,7 +52,7 @@ class MainScreenViewModel(
 
         _userInfoFlow.value = loading()
         viewModelScope.launch {
-            val result = runCatching { repository.userInfo }
+            val result = runCatching { repository.getUserInfo() }
             _userInfoFlow.value = loaded(result)
         }
     }

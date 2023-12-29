@@ -1,15 +1,21 @@
 package com.isel.GomokuRoyale.preferences.model
 
-class UserInfo(val username: String, val status: String) {
+import model.openingrule
+import model.toOpeningRule
+import model.toVariante
+import model.variantes
+
+class UserInfo(val variante: String, val openingrule: String) {
     init {
-        require(validateUserInfoParts(username, status))
+        require(validateUserInfoParts(variante, openingrule))
     }
 }
-fun userInfoOrNull(username: String, status: String): UserInfo? =
-    if (validateUserInfoParts(username, status))
-        UserInfo(username, status)
+fun userInfoOrNull(variante: String, openingrule: String): UserInfo? =
+    if (validateUserInfoParts(variante, openingrule))
+        UserInfo(variante, openingrule)
     else
         null
 
-fun validateUserInfoParts(username: String, status: String) =
-    (username.isNotBlank() && status.isNotBlank() && status != "null") ?: true
+fun validateUserInfoParts(variante: String, openingrule: String) =
+    variante.isNotBlank() && openingrule.isNotBlank() && (variante.toVariante() == variantes.NORMAL || variante.toVariante() == variantes.OMOK)
+            && (openingrule.toOpeningRule() == model.openingrule.PRO || openingrule.toOpeningRule() == model.openingrule.LONGPRO)

@@ -26,11 +26,11 @@ data class Board(
             variantes,
             openingrule,
             if (variantes ==model.variantes.OMOK)19 else 15,
-            moves = if(moves.size==0) emptyMap()
-            else buildMap{
-                var i =0  //0
+            moves = buildMap {
+                var i =0
                 //val moves = emptyMap<Cell,Player>().toMutableMap()
                 while (i < moves.size){//1A 10A
+
                     val pairParts = moves[i].split(':')
                     val rowNumbers =  pairParts[0].getUntilLetter()
                     val row = rowNumbers.toInt() -1
@@ -86,23 +86,23 @@ data class Board(
     private fun openingRuleVerify( at: Coordinate): Boolean {
         when(openingrule){
             model.openingrule.PRO ->{
-                val elementCount = countBoardElements()
+                val elementCount = countBoardElementes()
                 if (elementCount==0){
-                val middleIndex = boardSize /2
-                return at == Coordinate(middleIndex,middleIndex,boardSize)
-            }else if (elementCount ==2){
-                val middleCoordinate = Coordinate(boardSize/2,boardSize/2,boardSize)
-                return distanceBetweenPieces(middleCoordinate,at) == 3
-            }else return true
+                    val middleIndex = boardSize /2
+                    return at == Coordinate(middleIndex,middleIndex,boardSize)
+                }else if (elementCount ==2){
+                    val middleCoordinate = Coordinate(boardSize/2,boardSize/2,boardSize)
+                    return distanceBetweenPieces(middleCoordinate,at) >= 3
+                }else return true
             }
             model.openingrule.LONGPRO->{
-                val elementCount = countBoardElements()
+                val elementCount = countBoardElementes()
                 if (elementCount==0){
                     val middleIndex = boardSize/2
                     return at == Coordinate(middleIndex,middleIndex,boardSize)
                 }else if (elementCount ==2){
                     val middleCoordinate = Coordinate(boardSize/2,boardSize/2,boardSize)
-                    return distanceBetweenPieces(middleCoordinate,at) == 4
+                    return distanceBetweenPieces(middleCoordinate,at) >= 4
                 }else return true
             }
         }
@@ -113,13 +113,13 @@ data class Board(
         return if (rowdist>=coldist) rowdist else coldist
     }
 
-    private fun countBoardElements():Int=moves.size
+    private fun countBoardElementes():Int=moves.size
 
     /**
      * Converts this instance to a list of moves.
      */
-    fun toMovesList(): List<String> = moves.map {it
-        ->""+ it.key.row + ('A' + it.key.column) +':'+ it.value.char
+    fun toMovesList(): List<String> = if (moves.isEmpty()) emptyList() else moves.map { it
+        ->""+ (it.key.row + 1) + ('A' + it.key.column) +':'+ it.value.char
     }
 
 
@@ -131,7 +131,7 @@ data class Board(
  */
 fun Board.isTied(): Boolean = moves.size == boardSize*boardSize && !hasWon(Player.WHITE) && !hasWon(
     Player.BLACK)
-    //toMovesList().all { it != null } && !hasWon(Piece.WHITE) && !hasWon(Piece.BLACK)
+//toMovesList().all { it != null } && !hasWon(Piece.WHITE) && !hasWon(Piece.BLACK)
 
 /**
  * Extension function that checks whether the given marker has won the game
@@ -143,57 +143,57 @@ fun Board.hasWon(player: Player): Boolean =       /**trocar e adicionar variante
         model.variantes.OMOK -> boardIsWin(this,player,3)
     }
 private fun boardIsWin(board: Board, player: Player, nOfPiecesToWin:Int):Boolean{
-        val directions = listOf(
-            Pair(1, 0),  // horizontal
-            Pair(0, 1),  // vertical
-            Pair(1, 1),  // diagonal (top-left to bottom-right)
-            Pair(1, -1)  // diagonal (top-right to bottom-left)
-        )
-        for (r in 0 until board.boardSize){
-            for (c in 0 until board.boardSize){
-                val lastCoordinate = Coordinate(r,c,board.boardSize)
-                if (board.moves[lastCoordinate] == null) continue
+    val directions = listOf(
+        Pair(1, 0),  // horizontal
+        Pair(0, 1),  // vertical
+        Pair(1, 1),  // diagonal (top-left to bottom-right)
+        Pair(1, -1)  // diagonal (top-right to bottom-left)
+    )
+    for (r in 0 until board.boardSize){
+        for (c in 0 until board.boardSize){
+            val lastCoordinate = Coordinate(r,c,board.boardSize)
+            if (board.moves[lastCoordinate] == null) continue
+            // Check one direction
+            for ((dx, dy) in directions) {
+                var count = 1
                 // Check one direction
-                for ((dx, dy) in directions) {
-                    var count = 1
-                    // Check one direction
-                    for (i in 1 until nOfPiecesToWin) {
-                        val row = lastCoordinate.row + i * dx
-                        val col = lastCoordinate.column + i * dy
-                        if (row < 0 || col < 0 || row >= board.boardSize || col >= board.boardSize) {
-                            break
-                        }
-                        val currentCoordinate = Coordinate(row,col, board.boardSize)
-                        if (board.moves[currentCoordinate] == player) {
-                            count++
-                            if (count == nOfPiecesToWin) {
-                                return true
-                            }
-                        } else {
-                            break
-                        }
+                for (i in 1 until nOfPiecesToWin) {
+                    val row = lastCoordinate.row + i * dx
+                    val col = lastCoordinate.column + i * dy
+                    if (row < 0 || col < 0 || row >= board.boardSize || col >= board.boardSize) {
+                        break
                     }
-                    // Check the opposite direction
-                    for (i in 1 until nOfPiecesToWin) {
-                        val row = lastCoordinate.row - i * dx
-                        val col = lastCoordinate.column - i * dy
-                        if (row < 0 || col < 0 || row >= board.boardSize || col >= board.boardSize) {
-                            break
+                    val currentCoordinate = Coordinate(row,col, board.boardSize)
+                    if (board.moves[currentCoordinate] == player) {
+                        count++
+                        if (count == nOfPiecesToWin) {
+                            return true
                         }
-                        val currentCoordinate = Coordinate(row,col,board.boardSize)
-                        if (board.moves[currentCoordinate] == player) {
-                            count++
-                            if (count == nOfPiecesToWin) {
-                                return true
-                            }
-                        } else {
-                            break
+                    } else {
+                        break
+                    }
+                }
+                // Check the opposite direction
+                for (i in 1 until nOfPiecesToWin) {
+                    val row = lastCoordinate.row - i * dx
+                    val col = lastCoordinate.column - i * dy
+                    if (row < 0 || col < 0 || row >= board.boardSize || col >= board.boardSize) {
+                        break
+                    }
+                    val currentCoordinate = Coordinate(row,col,board.boardSize)
+                    if (board.moves[currentCoordinate] == player) {
+                        count++
+                        if (count == nOfPiecesToWin) {
+                            return true
                         }
+                    } else {
+                        break
                     }
                 }
             }
         }
-        return false
+    }
+    return false
 }
 
 open class BoardResult

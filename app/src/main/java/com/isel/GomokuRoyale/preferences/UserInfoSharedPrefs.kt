@@ -4,19 +4,20 @@ import android.content.Context
 import com.isel.GomokuRoyale.preferences.model.UserInfo
 import com.isel.GomokuRoyale.preferences.model.UserInfoRepository
 
-class UserInfoSharedPrefs(private val context: Context): UserInfoRepository {
+class UserInfoSharedPrefs(private val context: Context) {
 
-    private val userUsernameKey = "Username"
-    private val userStatusKey = "Status"
+    private val userVarianteKey = "Variante"
+    private val userOpeningRuleKey = "OpeningRule"
 
-    private val prefs by lazy {
+        private val prefs by lazy {
         context.getSharedPreferences("UserInfoPrefs", Context.MODE_PRIVATE)
     }
 
-    override var userInfo: UserInfo?
+
+    var userInfo: UserInfo?
         get() {
-            val savedUsername = prefs.getString(userUsernameKey, null)
-            val savedBearer = prefs.getString(userStatusKey,null)
+            val savedUsername = prefs.getString(userVarianteKey, null)
+            val savedBearer = prefs.getString(userOpeningRuleKey,null)
             return if (savedUsername != null && savedBearer != null)
                 UserInfo(savedUsername, savedBearer)
             else
@@ -26,13 +27,13 @@ class UserInfoSharedPrefs(private val context: Context): UserInfoRepository {
         set(value) {
             if (value == null)
                 prefs.edit()
-                    .remove(userUsernameKey)
-                    .remove(userStatusKey)
+                    .remove(userVarianteKey)
+                    .remove(userOpeningRuleKey)
                     .apply()
             else
                 prefs.edit()
-                    .putString(userUsernameKey, value.username)
-                    .putString(userStatusKey, value.status)
+                    .putString(userVarianteKey, value.variante)
+                    .putString(userOpeningRuleKey, value.openingrule)
                     .apply()
         }
 

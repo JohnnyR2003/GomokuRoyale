@@ -1,10 +1,9 @@
 package com.isel.GomokuRoyale.game.adapters
 
+import android.icu.text.LocaleDisplayNames.UiListItem
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ListenerRegistration
-import com.isel.GomokuRoyale.lobby.domain.Challenge
-import com.isel.GomokuRoyale.lobby.domain.PlayerInfo
 import kotlinx.coroutines.channels.ProducerScope
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
@@ -24,11 +23,12 @@ import model.makeMove
 import model.toOpeningRule
 import model.toVariante
 import model.variantes
+import java.util.UUID
 
 class MatchFirebase(private val db: FirebaseFirestore) : Match {
 
     private var onGoingGame: Pair<Game, String>? = null
-
+    private var player = Player.firstToMove
     private fun subscribeGameStateUpdated(
         localPlayerMarker: Player,
         gameId: String,
@@ -41,17 +41,31 @@ class MatchFirebase(private val db: FirebaseFirestore) : Match {
                     error != null -> flow.close(error)
                     snapshot != null -> {
                         snapshot.toMatchStateOrNull()?.let {
-                            val game = Game(
-                                localPlayer = localPlayerMarker,
+                            /*val game =Game(
+                                localPlayer = player,
                                 forfeitedBy = it.second,
                                 board = it.first
-                            )
+                            )*/
+                            val game =if (it.first.moves.size %2 == 0){
+                                Game(
+                                    localPlayer = localPlayerMarker,
+                                    forfeitedBy = it.second,
+                                    board = it.first
+                                )
+                            }else {
+                                Game(
+                                    localPlayer = localPlayerMarker.other(),
+                                    forfeitedBy = it.second,
+                                    board = it.first
+                                )}
+
                             val gameEvent = when {
                                 onGoingGame == null -> GameStarted(game)
                                 game.forfeitedBy != null -> GameEnded(game, game.forfeitedBy.other())
                                 else -> MoveMade(game)
                             }
                             onGoingGame = Pair(game, gameId)
+
                             flow.trySend(gameEvent)
                         }
                     }
@@ -72,15 +86,22 @@ class MatchFirebase(private val db: FirebaseFirestore) : Match {
             .await()
     }
 
-    override fun start(localPlayer: PlayerInfo, challenge: Challenge): Flow<GameEvent> {
+    private suspend fun saveGame(game: Game, gameId: String) {
+        db.collection(ONGOING)
+            .document(gameId)
+            .set(game.board.toDocumentContent())
+            .await()
+    }
+
+    override fun start(localPlayer: Player, gameIds: UUID, board: Board): Flow<GameEvent> {
         check(onGoingGame == null)
 
         return callbackFlow {
             val newGame = Game(
                 localPlayer = getLocalPlayerMarker(localPlayer),
-                board = Board()
+                board = board
             )
-            val gameId = challenge.challenger.id.toString()
+            val gameId = gameIds.toString()
 
             var gameSubscription: ListenerRegistration? = null
             try {
@@ -104,9 +125,11 @@ class MatchFirebase(private val db: FirebaseFirestore) : Match {
     }
 
     override suspend fun makeMove(at: Coordinate) {
-        onGoingGame = checkNotNull(onGoingGame).also {
+        onGoingGame = checkNotNull(onGoingGame).let {//.also
             val game = it.copy(first = it.first.makeMove(at))
             updateGame(game.first, game.second)
+            player = player.other()
+            return@let game
         }
     }
 

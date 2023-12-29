@@ -1,8 +1,6 @@
 package model
 
-import com.isel.GomokuRoyale.lobby.domain.Challenge
-import com.isel.GomokuRoyale.lobby.domain.PlayerInfo
-import com.isel.GomokuRoyale.lobby.domain.firstToMove
+
 import model.Player
 
 
@@ -33,7 +31,7 @@ fun Game.makeMove(at: Coordinate): Game {
 /**
  * Gets which marker is to be assigned to the local player for the given challenge.
  */
-fun getLocalPlayerMarker(localPlayer: PlayerInfo) = Player.BLACK
+fun getLocalPlayerMarker(localPlayer: Player) = Player.BLACK
 
 
 /**

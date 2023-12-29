@@ -29,8 +29,8 @@
     <string name="failed_to_read_preferences_error_dialog_text">Failed to read local data store</string>
     <string name="failed_to_read_preferences_error_dialog_ok_button">OK</string>
     <string name="preferences_screen_title">How others see you</string>
-    <string name="preferences_screen_nickname_tip">Your nickname</string>
-    <string name="preferences_screen_pass_tip">Your password</string>
+    <string name="preferences_screen_variante_tip">Your game\'s variante (NORMAL / OMOK)</string>
+    <string name="preferences_screen_opening_rule_tip">Your game\'s opening rule (PRO / LONGPRO)</string>
     <string name="preferences_screen_status_tip">Your status</string>
     <string name="game_screen_your_turn">"it's your turn"</string>
     <string name="game_screen_opponent_turn">"it's your opponent's turn"</string>
@@ -44,4 +44,7 @@
     <string name="starting_match_cancel_button">"press to cancel match"</string>
     <string name="starting_match_dialog_title">"Starting Match"</string>
     <string name="starting_match_dialog_text">"Start Match"</string>
+    <string name="failed_to_save_preferences_error_dialog_title">Fatal Error</string>
+    <string name="failed_to_save_preferences_error_dialog_text">Failed to save user info to local data store. Is there any space left on your device? </string>
+    <string name="failed_to_save_preferences_error_dialog_retry_button">Retry</string>
 </resources>

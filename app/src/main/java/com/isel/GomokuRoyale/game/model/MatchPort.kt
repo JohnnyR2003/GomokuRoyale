@@ -3,6 +3,7 @@ package model
 
 import kotlinx.coroutines.flow.Flow
 import model.Player
+import java.util.UUID
 
 /**
  * Sum type used to describe events occurring while the match is ongoing.
@@ -30,7 +31,7 @@ interface Match {
      * @return the flow of game state change events, expressed as [GameEvent] instances
      * @throws IllegalStateException if a game is in progress
      */
-    fun start(localPlayer: Player): Flow<GameEvent>
+    fun start(localPlayer: Player, gameId: UUID, board: Board): Flow<GameEvent>
 
     /**
      * Makes a move at the given coordinates.
