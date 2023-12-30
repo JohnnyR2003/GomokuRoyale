@@ -6,13 +6,13 @@
     <string name="top_bar_navigate_to_about">About\n</string>
     <string name="activity_info_no_suitable_app">Could not find a suitable application</string>
     <string name="home_play_button">Play</string>
-    <string name="home_profile_button">Profile</string>
+    <string name="home_favourites_button">Favourites</string>
     <string name="home_leaderboard_button">Leaderboard</string>
     <string name="home_signinup_button">SignIn / SignUp</string>
     <string name="home_exit_button">EXIT</string>
     <string name="leaderboard_searchforplayer">Search for a Player:</string>
     <string name="leaderboard_name">Name:</string>
-    <string name="leaderboard_leaderboard">Leaderboard</string>
+    <string name="favourite_games_list">Favourite Games</string>
     <string name="utils_loading">Loading...</string>
     <string name="lobby_shotsperround">Shots Per Round =</string>
     <string name="lobby_variant">MODE</string>
@@ -47,4 +47,5 @@
     <string name="failed_to_save_preferences_error_dialog_title">Fatal Error</string>
     <string name="failed_to_save_preferences_error_dialog_text">Failed to save user info to local data store. Is there any space left on your device? </string>
     <string name="failed_to_save_preferences_error_dialog_retry_button">Retry</string>
+    <string name="favourite_screen_title">Favourite games</string>
 </resources>

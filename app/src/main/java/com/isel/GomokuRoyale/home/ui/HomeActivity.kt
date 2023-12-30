@@ -13,6 +13,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.isel.GomokuRoyale.DependenciesContainer
+import com.isel.GomokuRoyale.Favourites.ui.FavouritesActivity
 import com.isel.GomokuRoyale.about.ui.AboutActivity
 import com.isel.GomokuRoyale.game.Loaded
 import com.isel.GomokuRoyale.game.getOrNull
@@ -72,15 +73,9 @@ private val vm by viewModels<HomeViewModel> {
             val loggedState by vm.isLoggedIn.collectAsState()
             HomeView(
                 state = HomeScreenState(null, loggedState),
-                /*onLogoutRequest = {
-                     vm.logout()
-                },
-                  onMeRequest = { onBackPressed() }   {
-                      if (loggedState)
-                          MeActivity.navigateTo(this)
-                      else
-                          LoginActivity.navigateTo(this)
-                  ,*/
+                onFavouritesRequest = {
+                    FavouritesActivity.navigateTo(this)
+                                      },
                 onFindGameRequest = {
                     doNavigation(userInfo = userInfo.getOrNull())
                 },

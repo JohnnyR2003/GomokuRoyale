@@ -18,6 +18,8 @@ import com.google.firebase.firestore.FirebaseFirestoreSettings
 import com.google.firebase.firestore.LocalCacheSettings
 import com.google.firebase.firestore.ktx.*
 import com.google.firebase.ktx.Firebase
+import com.isel.GomokuRoyale.Favourites.Fav
+import com.isel.GomokuRoyale.Favourites.adapters.FavFirebase
 import com.isel.GomokuRoyale.game.adapters.MatchFirebase
 import com.isel.GomokuRoyale.preferences.UserInfoDataStore
 import com.isel.GomokuRoyale.preferences.UserInfoSharedPrefs
@@ -31,8 +33,8 @@ interface DependenciesContainer {
     //val loginService : LoginService
     //val leaderboardService: LeaderboardService
     val userInfoRepo : UserInfoRepository
-
     val match: Match
+    val favourites : Fav
 
 }
 
@@ -57,6 +59,8 @@ class GomokuApplication:Application(), DependenciesContainer{
         get() = MatchFirebase(emulatedFirestoreDb)
 
 
+    override val favourites: Fav
+        get() = FavFirebase(emulatedFirestoreDb)
     /*
     override val loginService: LoginService
         get() = RealLoginService(OkHttpClient(), GsonBuilder().create())

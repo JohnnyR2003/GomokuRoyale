@@ -1,9 +1,11 @@
 package com.isel.GomokuRoyale.game.adapters
 
 import android.icu.text.LocaleDisplayNames.UiListItem
+import com.google.firebase.Timestamp
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ListenerRegistration
+import com.isel.GomokuRoyale.Favourites.GameInfo
 import kotlinx.coroutines.channels.ProducerScope
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
@@ -85,13 +87,61 @@ class MatchFirebase(private val db: FirebaseFirestore) : Match {
             .update(game.board.toDocumentContent())
             .await()
     }
-
+    //saves a specific game from the collection ONGOING in a new collection called favourites
     private suspend fun saveGame(game: Game, gameId: String) {
-        db.collection(ONGOING)
+        db.collection("favourites")
             .document(gameId)
             .set(game.board.toDocumentContent())
             .await()
     }
+
+    /*
+        override fun getFavourites(): List<GameInfo> {
+            val gameList = mutableListOf<GameInfo>()
+            db.collection("favourites")
+                .get()
+                .addOnSuccessListener { result ->
+                    for (document in result) {
+                        val gameid = document.id
+                        gameList.add(GameInfo(
+                            title = gameid,
+                            opponent = document.getString("turn").toString(),
+                            date = document.getDate("date").toString(),
+                            time = document.getDate("time").toString())
+                        )
+                    }
+                }
+            return gameList
+        }
+       override fun getFavourites(): Flow<List<GameInfo>> {
+            return callbackFlow {
+                val gameSubscription = db.collection("favourites")
+                    .addSnapshotListener { snapshot, error ->
+                        when {
+                            error != null -> close(error)
+                            snapshot != null -> {
+                                val gameid = snapshot.documents.mapNotNull { it.id }
+                                val gameDate = snapshot.documents.mapNotNull { it.getDate(gameid.toString()) }
+                                val gameTime = snapshot.documents.mapNotNull { it.getTimestamp(gameid.toString()) }
+                                val gameList = snapshot.documents.mapNotNull { it.toMatchStateOrNull() }
+                                    .map { GameInfo(
+                                        title = gameid.toString(),
+                                        opponent = it.first.turn.other().name,
+                                        date = gameDate.toString(),
+                                        time = gameTime.toString(),
+
+                                    ) }
+                                trySend(gameList)
+                            }
+                        }
+                    }
+                awaitClose {
+                    gameSubscription.remove()
+                }
+            }
+        }*/
+
+
 
     override fun start(localPlayer: Player, gameIds: UUID, board: Board): Flow<GameEvent> {
         check(onGoingGame == null)
@@ -106,6 +156,7 @@ class MatchFirebase(private val db: FirebaseFirestore) : Match {
             var gameSubscription: ListenerRegistration? = null
             try {
                 publishGame(newGame, gameId)
+                saveGame(newGame, gameId)
 
 
 
@@ -128,6 +179,7 @@ class MatchFirebase(private val db: FirebaseFirestore) : Match {
         onGoingGame = checkNotNull(onGoingGame).let {//.also
             val game = it.copy(first = it.first.makeMove(at))
             updateGame(game.first, game.second)
+            saveGame(game.first, game.second)
             player = player.other()
             return@let game
         }
@@ -162,6 +214,9 @@ const val BOARD_FIELD = "board"
 const val FORFEIT_FIELD = "forfeit"
 const val VARIANT_FIELD = "variant"
 const val OPENINGRULE_FIELD = "openingrule"
+const val DATE_FIELD = "date"
+const val TIME_FIELD = "time"
+const val OPPONENT_FIELD = "opponent"
 
 /**
  * [Board] extension function used to convert an instance to a map of key-value
@@ -171,7 +226,11 @@ fun Board.toDocumentContent() = mapOf(
     TURN_FIELD to turn.name,
     BOARD_FIELD to toMovesList().joinToString(separator = ","),
     OPENINGRULE_FIELD to openingrule.name,
-    VARIANT_FIELD to variantes.name
+    VARIANT_FIELD to variantes.name,
+    DATE_FIELD to Timestamp.now(),
+    TIME_FIELD to Timestamp.now(),
+    OPPONENT_FIELD to turn.other().name
+
 
 )
 

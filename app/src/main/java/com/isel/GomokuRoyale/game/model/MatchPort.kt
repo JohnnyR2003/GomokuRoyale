@@ -1,6 +1,7 @@
 package model
 
 
+import com.isel.GomokuRoyale.Favourites.GameInfo
 import kotlinx.coroutines.flow.Flow
 import model.Player
 import java.util.UUID
@@ -31,6 +32,8 @@ interface Match {
      * @return the flow of game state change events, expressed as [GameEvent] instances
      * @throws IllegalStateException if a game is in progress
      */
+
+    //fun getFavourites() :List<GameInfo>
     fun start(localPlayer: Player, gameId: UUID, board: Board): Flow<GameEvent>
 
     /**

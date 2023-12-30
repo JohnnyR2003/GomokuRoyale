@@ -39,7 +39,7 @@ const val HomeScreenTag = "HomeScreen"
 fun HomeView(
     state: HomeScreenState = HomeScreenState(),
     //onLogoutRequest: () -> Unit,
-    //onMeRequest: () -> Unit,
+    onFavouritesRequest: () -> Unit,
     onFindGameRequest: () -> Unit,
     //onLeaderboardRequest: () -> Unit,
     onInfoRequest: () -> Unit,
@@ -85,14 +85,15 @@ fun HomeView(
                     name = stringResource(id = R.string.home_play_button),
                     state = true,
                     testTag = "PlayButton"
-                )/*
+                )
                 ButtonView(
-                    onClickRequest = { onMeRequest() },
-                    name = stringResource(id = R.string.home_profile_button),
+                    onClickRequest = { onFavouritesRequest() },
+                    name = stringResource(id = R.string.home_favourites_button),
                     state = state.loggedState,
                     testTag = "ProfileButton"
 
                 )
+                /*
                 ButtonView(onClickRequest = { onLeaderboardRequest() },
                     name = stringResource(id = R.string.home_leaderboard_button),
                     testTag = "LeaderboardButton"
@@ -162,6 +163,7 @@ private fun HomePreviewLoggedIn() {
         //onLogoutRequest = {},
        // onMeRequest = {},
         onFindGameRequest = {},
+        onFavouritesRequest = {},
         //onLeaderboardRequest = {},
         onInfoRequest = {},
        // onSignInOrSignUpRequest = {},
@@ -178,6 +180,7 @@ private fun HomePreviewLoggedOut() {
             //onLogoutRequest = {},
            // onMeRequest = {},
             onFindGameRequest = {},
+            onFavouritesRequest = {},
             //onLeaderboardRequest = {},
             onInfoRequest = {},
            // onSignInOrSignUpRequest = {},

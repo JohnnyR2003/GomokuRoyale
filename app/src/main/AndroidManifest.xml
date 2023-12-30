@@ -35,7 +35,7 @@
         android:windowSoftInputMode="adjustPan">
         </activity>
         <activity
-        android:name="com.isel.GomokuRoyale.leaderboard.ui.LeaderboardActivity"
+        android:name="com.isel.GomokuRoyale.Favourites.ui.FavouritesActivity"
         android:exported="false"
         android:windowSoftInputMode="adjustPan">
         </activity>
@@ -43,11 +43,7 @@
         android:name="com.isel.GomokuRoyale.about.ui.AboutActivity"
         android:exported="false">
         </activity>
-        <activity
-        android:name="com.isel.GomokuRoyale.lobby.ui.LobbyActivity"
-        android:exported="false">
-        </activity>
-        </application>
+    </application>
 
 </manifest>
 

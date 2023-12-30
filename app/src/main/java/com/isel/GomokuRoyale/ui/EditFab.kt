@@ -37,11 +37,7 @@ fun EditFab(
                 else SaveButtonTag
             )
     ){
-        if (mode == FabMode.Edit) {
             Icon(Icons.Default.Edit, contentDescription = "")
-        } else {
-            Icon(Icons.Default.SaveAlt, contentDescription = "")
-        }
     }
 }
 
