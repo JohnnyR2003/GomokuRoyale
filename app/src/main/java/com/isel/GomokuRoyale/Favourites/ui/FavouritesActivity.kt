@@ -59,14 +59,11 @@ class FavouritesActivity : ComponentActivity(){
 
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.favourites.filter { it == viewModel.favourites.value }
-                viewModel.fetchFavourites()
+                viewModel.enterLobby()
                 try {
-                   viewModel.favourites.collectLatest {
-                            if (!it.isNotEmpty()) {
-                                viewModel.fetchFavourites()
-                            }
-                        }
+                   viewModel.favourites.collect{
+                       viewModel.fetchFavourites()
+                   }
                 }
                 finally {
                     viewModel.leaveFavourites()

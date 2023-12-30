@@ -1,5 +1,6 @@
 package model
 
+import android.icu.text.CaseMap.Title
 import kotlin.math.abs
 
 /**
@@ -8,6 +9,7 @@ import kotlin.math.abs
  * @property moves  The board moves
  */
 data class Board(
+    val title: String = "",
     val turn: Player = Player.firstToMove,
     val variantes: variantes =model.variantes.NORMAL,
     val openingrule: openingrule = model.openingrule.PRO,
@@ -21,11 +23,12 @@ data class Board(
 ) {
 
     companion object {
-        fun fromMovesList(turn: Player,variantes: variantes,openingrule: openingrule, moves: List<String>) = Board(
+        fun fromMovesList(title: String, turn: Player,variantes: variantes,openingrule: openingrule, moves: List<String>) = Board(
+            title = title,
             turn = turn,
-            variantes,
-            openingrule,
-            if (variantes ==model.variantes.OMOK)19 else 15,
+            variantes = variantes,
+            openingrule = openingrule,
+            boardSize = if (variantes ==model.variantes.OMOK)19 else 15,
             moves = buildMap {
                 var i =0
                 //val moves = emptyMap<Cell,Player>().toMutableMap()
@@ -75,9 +78,10 @@ data class Board(
         check(this[at] == null)
         check(openingRuleVerify(at))
         return Board(
+            title = title,
             turn = turn.other(),
-            variantes,
-            openingrule,
+            variantes = variantes,
+            openingrule = openingrule,
             boardSize = if (variantes == model.variantes.OMOK)19 else 15,
             moves = moves + Pair(at,turn)
         )

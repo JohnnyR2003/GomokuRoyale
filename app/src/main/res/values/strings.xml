@@ -31,7 +31,7 @@
     <string name="preferences_screen_title">How others see you</string>
     <string name="preferences_screen_variante_tip">Your game\'s variante (NORMAL / OMOK)</string>
     <string name="preferences_screen_opening_rule_tip">Your game\'s opening rule (PRO / LONGPRO)</string>
-    <string name="preferences_screen_status_tip">Your status</string>
+    <string name="preferences_screen_title_tip">Your game title</string>
     <string name="game_screen_your_turn">"it's your turn"</string>
     <string name="game_screen_opponent_turn">"it's your opponent's turn"</string>
     <string name="game_screen_forfeit">"forfeit"</string>

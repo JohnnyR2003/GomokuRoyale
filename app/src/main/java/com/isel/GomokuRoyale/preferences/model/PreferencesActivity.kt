@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.os.Parcelable
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
@@ -13,7 +12,6 @@ import androidx.compose.runtime.getValue
 import androidx.lifecycle.lifecycleScope
 import com.isel.GomokuRoyale.DependenciesContainer
 import com.isel.GomokuRoyale.R
-import com.isel.GomokuRoyale.TAG
 import com.isel.GomokuRoyale.game.Saved
 import com.isel.GomokuRoyale.game.getOrNull
 import com.isel.GomokuRoyale.game.idle
@@ -23,11 +21,7 @@ import com.isel.GomokuRoyale.ui.ErrorAlert
 import com.isel.GomokuRoyale.utils.viewModelInit
 import kotlinx.android.parcel.Parcelize
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 import model.Player
-import model.openingrule
-import model.toOpeningRule
-import model.toVariante
 
 const val FINISH_ON_SAVE_EXTRA = "FinishOnSaveExtra"
 
@@ -85,7 +79,8 @@ class PreferencesActivity : ComponentActivity() {
                             this,
                             Player.BLACK,
                             userInfoToSave.variante,
-                            userInfoToSave.openingrule
+                            userInfoToSave.openingrule,
+                            userInfoToSave.title
                         )
                     }
                 },
@@ -125,8 +120,8 @@ private const val USER_INFO_EXTRA = "UserInfo"
  * parcelable and we do not want to make it parcelable because it's a domain class.
  */
 @Parcelize
-private data class UserInfoExtra(val variante: String, val openingrule: String) : Parcelable {
-    constructor(userInfo: UserInfo) : this(userInfo.variante, userInfo.openingrule)
+private data class UserInfoExtra(val variante: String, val openingrule: String, val title: String) : Parcelable {
+    constructor(userInfo: UserInfo) : this(userInfo.variante, userInfo.openingrule, userInfo.title)
 }
 
-private fun UserInfoExtra.toUserInfo() = UserInfo(variante, openingrule)
+private fun UserInfoExtra.toUserInfo() = UserInfo(variante, openingrule,title)

@@ -2,12 +2,12 @@ package com.isel.GomokuRoyale.preferences
 
 import android.content.Context
 import com.isel.GomokuRoyale.preferences.model.UserInfo
-import com.isel.GomokuRoyale.preferences.model.UserInfoRepository
 
 class UserInfoSharedPrefs(private val context: Context) {
 
     private val userVarianteKey = "Variante"
     private val userOpeningRuleKey = "OpeningRule"
+    private val userTitleKey = "Title"
 
         private val prefs by lazy {
         context.getSharedPreferences("UserInfoPrefs", Context.MODE_PRIVATE)
@@ -16,10 +16,11 @@ class UserInfoSharedPrefs(private val context: Context) {
 
     var userInfo: UserInfo?
         get() {
-            val savedUsername = prefs.getString(userVarianteKey, null)
-            val savedBearer = prefs.getString(userOpeningRuleKey,null)
-            return if (savedUsername != null && savedBearer != null)
-                UserInfo(savedUsername, savedBearer)
+            val savedVariante = prefs.getString(userVarianteKey, null)
+            val savedOpeningRule = prefs.getString(userOpeningRuleKey,null)
+            val savedTitle = prefs.getString(userOpeningRuleKey,null)
+            return if (savedVariante != null && savedOpeningRule != null && savedTitle != null)
+                UserInfo(savedVariante, savedOpeningRule,savedTitle)
             else
                 null
         }

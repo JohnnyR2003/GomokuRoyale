@@ -108,16 +108,16 @@ private fun GameScreenWaiting() {
 
     GameScreen(state = GameScreenState(
         title = R.string.game_screen_waiting,
-        Game(localPlayer = Player.BLACK, board = Board(Player.BLACK))
+        Game(localPlayer = Player.BLACK, board = Board())
     ))
 }
 private val aVariante = variantes.NORMAL
 private val aBoardSize = if (aVariante == variantes.OMOK) 19  else 15
 private val aBoard = Board(
     turn = Player.BLACK,
-    aVariante,
-    openingrule.PRO,
-    aBoardSize,
+    variantes = aVariante,
+    openingrule = openingrule.PRO,
+    boardSize = aBoardSize,
     moves = mapOf(
         Coordinate(7,7,aBoardSize) to Player.BLACK,
         Coordinate(1,7,aBoardSize) to Player.WHITE,

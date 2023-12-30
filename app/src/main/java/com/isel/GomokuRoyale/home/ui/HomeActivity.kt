@@ -28,7 +28,6 @@ import com.isel.GomokuRoyale.R
 import com.isel.GomokuRoyale.game.ui.GameActivity
 import com.isel.GomokuRoyale.preferences.model.PreferencesActivity
 import model.Player
-import java.util.UUID
 
 
 class
@@ -106,7 +105,8 @@ private val vm by viewModels<HomeViewModel> {
                 this,
                 Player.BLACK,
                 userInfo.variante,
-                userInfo.openingrule
+                userInfo.openingrule,
+                userInfo.title,
             )
     }
 

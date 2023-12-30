@@ -1,15 +1,22 @@
 package com.isel.GomokuRoyale.preferences.ui
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Description
+import androidx.compose.material.icons.filled.Face
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.ExposedDropdownMenuDefaults
+import androidx.compose.material3.Icon
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -21,12 +28,16 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.isel.GomokuRoyale.R
 import com.isel.GomokuRoyale.preferences.model.UserInfo
 import com.isel.GomokuRoyale.preferences.model.userInfoOrNull
 import com.isel.GomokuRoyale.ui.EditFab
 import com.isel.GomokuRoyale.ui.FabMode
+import com.isel.GomokuRoyale.ui.IsReadOnly
 import com.isel.GomokuRoyale.ui.NavigationHandlers
 import com.isel.GomokuRoyale.ui.TopBar
 import com.isel.GomokuRoyale.ui.theme.GomokuRoyaleTheme
@@ -47,13 +58,15 @@ fun PreferencesScreen(
 
         var variantIsExpanded by remember { mutableStateOf(false) }
         var openingruleIsExpanded by remember { mutableStateOf(false) }
+        var title by remember { mutableStateOf(userInfo?.title ?: "") }
         var option1 by remember { mutableStateOf(userInfo?.variante ?: "") }
         var option2 by remember { mutableStateOf(userInfo?.openingrule ?: "") }
         var editing by remember { mutableStateOf(userInfo == null) }
 
         val enteredInfo = userInfoOrNull(
             variante = option1.trim(),
-            openingrule = option2.trim()
+            openingrule = option2.trim(),
+            title = title.trim(),
         )
 
         Scaffold(
@@ -78,6 +91,24 @@ fun PreferencesScreen(
                     .padding(innerPadding)
                     .fillMaxSize(),
             ) {
+                OutlinedTextField(
+                    value = title,
+                    onValueChange = { title = ensureInputBounds(it) },
+                    singleLine = true,
+                    label = {
+                        Text(stringResource(id = R.string.preferences_screen_title_tip))
+                    },
+                    leadingIcon = {
+                        Icon(Icons.Default.Description, contentDescription = "")
+                    },
+                    readOnly = !editing,
+                    modifier = Modifier
+                        .padding(horizontal = 48.dp)
+                        .fillMaxWidth()
+                        .testTag(NicknameInputTag)
+                        .semantics { if (!editing) this[IsReadOnly] = Unit }
+                )
+                Spacer(modifier = Modifier.height(16.dp))
                 Text(text = "Your game's variant")
                 Spacer(modifier = Modifier.height(8.dp))
                 ExposedDropdownMenuBox(
@@ -177,7 +208,7 @@ private fun ensureInputBounds(input: String) =
 @Composable
 private fun PreferencesScreenViewModePreview() {
     PreferencesScreen(
-        userInfo = UserInfo("OMOK", "LONGPRO"),
+        userInfo = UserInfo("OMOK", "LONGPRO", "title"),
         onSaveRequested = { }
     )
 }

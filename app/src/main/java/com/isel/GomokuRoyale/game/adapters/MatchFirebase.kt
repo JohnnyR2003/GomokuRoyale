@@ -217,6 +217,7 @@ const val OPENINGRULE_FIELD = "openingrule"
 const val DATE_FIELD = "date"
 const val TIME_FIELD = "time"
 const val OPPONENT_FIELD = "opponent"
+const val TITLE_FIELD = "title"
 
 /**
  * [Board] extension function used to convert an instance to a map of key-value
@@ -229,7 +230,8 @@ fun Board.toDocumentContent() = mapOf(
     VARIANT_FIELD to variantes.name,
     DATE_FIELD to Timestamp.now(),
     TIME_FIELD to Timestamp.now(),
-    OPPONENT_FIELD to turn.other().name
+    OPPONENT_FIELD to turn.other().name,
+    TITLE_FIELD to this.title,
 
 
 )
@@ -243,11 +245,12 @@ fun DocumentSnapshot.toMatchStateOrNull(): Pair<Board, Player?>? =
     data?.let {
         val openingrule = it[OPENINGRULE_FIELD].toString().toOpeningRule()
         val variante = it[VARIANT_FIELD].toString().toVariante()
+        val title = it[TITLE_FIELD].toString()
         val moves = it[BOARD_FIELD] as String
         val turn = Player.valueOf(it[TURN_FIELD] as String)
         val forfeit = it[FORFEIT_FIELD] as String?
         Pair(
-            first = Board.fromMovesList(turn = turn, variantes = variante, openingrule = openingrule, moves = if (moves.isEmpty()) emptyList() else moves.toMovesList()),
+            first = Board.fromMovesList(title = title,turn = turn, variantes = variante, openingrule = openingrule, moves = if (moves.isEmpty()) emptyList() else moves.toMovesList()),
             second =  if (forfeit != null) Player.valueOf(forfeit) else null
         )
     }

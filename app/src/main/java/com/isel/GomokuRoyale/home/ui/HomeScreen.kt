@@ -159,7 +159,7 @@ fun ButtonView(onClickRequest: () -> Unit, name: String, state: Boolean? = null,
 @Composable
 private fun HomePreviewLoggedIn() {
     HomeView(
-        state = HomeScreenState(UserInfo("Teste", "Teste"), true),
+        state = HomeScreenState(UserInfo("Teste", "Teste", "title"), true),
         //onLogoutRequest = {},
        // onMeRequest = {},
         onFindGameRequest = {},

@@ -107,7 +107,7 @@ fun GameInfoView(
             }
             Column {
                 Text(
-                    text = "${gameInfo.date}",
+                    text = gameInfo.date.toDate().toString(),
                     style = MaterialTheme.typography.labelSmall,
                     textAlign = TextAlign.Center,
                     maxLines = 1,
@@ -117,7 +117,7 @@ fun GameInfoView(
             }
             Column {
                 Text(
-                    text = "${gameInfo.time}",
+                    text = gameInfo.time.toDate().toString(),
                     style = MaterialTheme.typography.labelSmall,
                     textAlign = TextAlign.Center,
                     maxLines = 1,

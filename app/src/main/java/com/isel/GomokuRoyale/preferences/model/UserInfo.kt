@@ -1,18 +1,17 @@
 package com.isel.GomokuRoyale.preferences.model
 
-import model.openingrule
 import model.toOpeningRule
 import model.toVariante
 import model.variantes
 
-class UserInfo(val variante: String, val openingrule: String) {
+class UserInfo(val variante: String, val openingrule: String, val title: String) {
     init {
         require(validateUserInfoParts(variante, openingrule))
     }
 }
-fun userInfoOrNull(variante: String, openingrule: String): UserInfo? =
+fun userInfoOrNull(variante: String, openingrule: String, title: String): UserInfo? =
     if (validateUserInfoParts(variante, openingrule))
-        UserInfo(variante, openingrule)
+        UserInfo(variante, openingrule,title)
     else
         null
 

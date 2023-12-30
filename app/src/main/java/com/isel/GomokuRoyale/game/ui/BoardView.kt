@@ -96,8 +96,8 @@ private val aVariante = variantes.NORMAL
 private val aBoardSize = if (aVariante == variantes.OMOK) 19  else 15
 private val aBoard = Board(
     turn = Player.BLACK,
-    aVariante,
-    openingrule.PRO,
+    variantes = aVariante,
+    openingrule = openingrule.PRO,
     boardSize = aBoardSize,
     moves = mapOf(
         Coordinate(7,7,aBoardSize) to Player.BLACK,

@@ -25,7 +25,7 @@ class FavFirebase(private val db: FirebaseFirestore) : Fav {
 
     fun QueryDocumentSnapshot.toGameInfo():GameInfo{
         return GameInfo(
-            title = this.id,
+            title = this.get("title") as String,
             opponent = this.get("opponent") as String,
             date = this.get("date") as Timestamp,
             time = this.get("time") as Timestamp
@@ -33,16 +33,8 @@ class FavFirebase(private val db: FirebaseFirestore) : Fav {
     }
     override suspend fun getFavourites(): List<GameInfo> {
         try {
-            val gameList = mutableListOf<GameInfo>()
-            db.collection(FAVOURITES)
-                .get()
-                .addOnSuccessListener { result ->
-                    for (document in result) {
-                        gameList.add(document.toGameInfo()
-                        )
-                    }
-                }
-            return gameList
+            val snapshot = db.collection(FAVOURITES).get().await()
+            return snapshot.toGameList()
         }
         catch (e: Throwable) {
             throw UnreachableFavouritesException()
