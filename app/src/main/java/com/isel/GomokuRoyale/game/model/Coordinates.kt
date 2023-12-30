@@ -12,14 +12,6 @@ data class Coordinate(val row: Int, val column: Int,val boardSize:Int) {
     init {
         require(isValidRow(row,boardSize) && isValidColumn(column,boardSize))
     }
-
-    /*override fun equals(other: Any?): Boolean {
-         if (other is Coordinate){
-             if (boardSize == other.boardSize){
-                 return other.row == row && other.column == column
-             }else return false
-         }else return false
-    }*/
 }
 
 /**

@@ -22,8 +22,6 @@ import model.Player
 import model.openingrule
 import model.variantes
 
-//var BOARD_SIZE = 19
-
 @Composable
 fun BoardView(
     board: Board,
@@ -40,12 +38,8 @@ fun BoardView(
             ) {
                 repeat(board.boardSize) { column ->
                     val at = Coordinate(row, column,board.boardSize)
-                    /*if(board[at] !=null){
-                      val player = board[at]
-                        Log.d(player?.name, "${at.row}:${at.column} => ${player?.name}")
-                    }*/
-                    TileView(
-                        move = board[at],//board.moves[Cell(at.row,at.column)],//board[at],
+                    PieceView(
+                        move = board[at],
                         enabled = enabled,
                         modifier = Modifier.weight(weight = 1.0f, fill = true),
                         onSelected = { onTileSelected(at) },

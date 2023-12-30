@@ -28,7 +28,7 @@ import com.isel.GomokuRoyale.ui.theme.GomokuRoyaleTheme
 
 data class HomeScreenState(
     val user: UserInfo? = null,
-    val loggedState: Boolean = false
+    val loggedState: Boolean = true
 )
 
 const val HomeScreenTag = "HomeScreen"
@@ -38,12 +38,9 @@ const val HomeScreenTag = "HomeScreen"
 @Composable
 fun HomeView(
     state: HomeScreenState = HomeScreenState(),
-    //onLogoutRequest: () -> Unit,
     onFavouritesRequest: () -> Unit,
     onFindGameRequest: () -> Unit,
-    //onLeaderboardRequest: () -> Unit,
     onInfoRequest: () -> Unit,
-   // onSignInOrSignUpRequest: () -> Unit,
     onExitRequest: () -> Unit
 ) {
     GomokuRoyaleTheme {
@@ -76,7 +73,7 @@ fun HomeView(
                 ButtonView(
                     onClickRequest = { onFindGameRequest() },
                     name = stringResource(id = R.string.home_play_button),
-                    state = true,
+                    state = state.loggedState,
                     testTag = "PlayButton"
                 )
                 ButtonView(

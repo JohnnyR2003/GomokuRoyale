@@ -131,12 +131,6 @@ private fun Any?.toOpeningRules(): openingrule {
 private fun Any?.toMoves(): List<String> {
     return this.toString().toMovesList()
 }
-
-
-
-
-
-
 private sealed class FavState
 private class InUse(
     val localPlayerDocRef: DocumentReference

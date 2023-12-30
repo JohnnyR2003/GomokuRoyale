@@ -49,10 +49,7 @@ fun GameScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .testTag(GameScreenTag),
-            /*topBar = {
-                TopBar()
-            },*/
-        ) { innerPadding ->
+            ) { innerPadding ->
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier

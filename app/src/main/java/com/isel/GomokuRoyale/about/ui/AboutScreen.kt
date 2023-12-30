@@ -118,13 +118,13 @@ private fun AboutPreview() {
         ),
         Author(
             "Danilo Vieira",
-            "A@alunos.isel.pt",
-            "https://github.com/"
+            "A49988@alunos.isel.pt",
+            "https://github.com/A49988"
         ),
         Author(
             "Ricardo Cristino",
-            "A@alunos.isel.pt",
-            "https://github.com/")
+            "A49413@alunos.isel.pt",
+            "https://github.com/RicardoCristino")
     )
     AboutView(
         onBackRequest = {},

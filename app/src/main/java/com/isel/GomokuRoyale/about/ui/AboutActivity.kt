@@ -1,6 +1,6 @@
 package com.isel.GomokuRoyale.about.ui
 
-import android.app.Activity
+
 import android.content.ActivityNotFoundException
 import android.content.ContentValues
 import android.content.Intent
@@ -13,9 +13,6 @@ import androidx.activity.compose.setContent
 import com.isel.GomokuRoyale.R
 import com.isel.GomokuRoyale.TAG
 import com.isel.GomokuRoyale.about.model.Author
-
-//import isel.pdm.jokes.R
-
 
 class AboutActivity : ComponentActivity() {
 
@@ -100,10 +97,10 @@ private val listOfAuthor: List<Author> = listOf(
     Author(
         "Danilo Vieira",
         "A49988@alunos.isel.pt",
-        "https://github.com/"
+        "https://github.com/A49988"
     ),
     Author(
         "Ricardo Cristino",
-        "A@alunos.isel.pt",
-        "https://github.com/")
+        "A49413@alunos.isel.pt",
+        "https://github.com/RicardoCristino")
 )

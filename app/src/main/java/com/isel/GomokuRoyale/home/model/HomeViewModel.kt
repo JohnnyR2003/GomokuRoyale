@@ -32,17 +32,6 @@ class HomeViewModel(userRepo: UserInfoRepository):ViewModel(){
 
     val userInfo: Flow<IOState<UserInfo?>> get() = _userInfoFlow.asStateFlow()
 
-    fun login(){
-        viewModelScope.launch {
-            _isLoggedIn.value = true
-        }
-    }
-
-    fun logout(){
-        viewModelScope.launch {
-            _isLoggedIn.value = false
-        }
-    }
     /**
      * Resets the view model to the idle state. From the idle state, the user information
      * can be fetched again.

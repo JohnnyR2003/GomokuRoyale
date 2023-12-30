@@ -12,11 +12,6 @@ sealed class IOState<out T>
 data object Idle : IOState<Nothing>()
 
 /**
- * The loading state, i.e. the state while the load operation is in progress.
- */
-data object Loading : IOState<Nothing>()
-
-/**
  * The saving state, i.e. the state while the save operation is in progress.
  */
 data object Saving : IOState<Nothing>()
@@ -41,11 +36,6 @@ data class Saved<T>(val value: Result<T>) : IOState<T>()
 fun idle(): Idle = Idle
 
 /**
- * Returns a new [IOState] in the loading state.
- */
-fun loading(): Loading = Loading
-
-/**
  * Returns a new [IOState] in the saving state.
  */
 fun saving(): Saving = Saving
@@ -61,26 +51,6 @@ fun <T> loaded(value: Result<T>): Loaded<T> = Loaded(value)
 fun <T> saved(value: Result<T>): Saved<T> = Saved(value)
 
 /**
- * Returns a new [IOState] in the loaded state with a successful result.
- */
-fun <T> loadSuccess(value: T): Loaded<T> = loaded(Result.success(value))
-
-/**
- * Returns a new [IOState] in the loaded state with a failed result.
- */
-fun <T> loadFailure(error: Throwable): Loaded<T> = loaded(Result.failure(error))
-
-/**
- * Returns a new [IOState] in the saved state with a successful result.
- */
-fun <T> saveSuccess(value: T): Saved<T> = saved(Result.success(value))
-
-/**
- * Returns a new [IOState] in the saved state with a failed result.
- */
-fun <T> saveFailure(error: Throwable): Saved<T> = saved(Result.failure(error))
-
-/**
  * Returns the result of the I/O operation, if one is available.
  */
 fun <T> IOState<T>.getOrNull(): T? = when (this) {
@@ -88,20 +58,3 @@ fun <T> IOState<T>.getOrNull(): T? = when (this) {
     else -> null
 }
 
-/**
- * Returns the result of the I/O operation, if one is available, or throws
- * the exception that caused the operation to fail. If the operation
- * is still in progress, an [IllegalStateException] is thrown.
- */
-fun <T> IOState<T>.getOrThrow(): T = when (this) {
-    is Loaded -> value.getOrThrow()
-    else -> throw IllegalStateException("No value available")
-}
-
-/**
- * Returns the exception that caused the I/O operation to fail, if one is available.
- */
-fun <T> IOState<T>.exceptionOrNull(): Throwable? = when (this) {
-    is Loaded -> value.exceptionOrNull()
-    else -> null
-}

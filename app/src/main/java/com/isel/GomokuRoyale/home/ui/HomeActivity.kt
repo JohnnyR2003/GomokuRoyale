@@ -33,18 +33,8 @@ import model.Player
 class
 HomeActivity() : ComponentActivity() {
 
-    companion object {
-        fun navigateTo(origin: ComponentActivity) {
-            val intent = Intent(origin, HomeActivity::class.java)
-            origin.startActivity(intent)
-        }
-    }
-/*
-    private val repo by lazy {
-        (application as DependenciesContainer).userInfoRepo
-    }
-*/
-private val vm by viewModels<HomeViewModel> {
+
+    private val vm by viewModels<HomeViewModel> {
     HomeViewModel.factory((application as DependenciesContainer).userInfoRepo)
 }
 

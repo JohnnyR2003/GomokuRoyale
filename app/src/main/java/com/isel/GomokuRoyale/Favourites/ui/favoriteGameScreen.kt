@@ -36,7 +36,6 @@ internal const val FavoriteGameScreenTitleTag = "FavoriteGameScreenTitle"
 internal const val FavoriteForfeitButtonTag = "ForfeitButton"
 internal const val FavoriteNextButtonTag = "NextButton"
 internal const val FavoritePreviousButtonTag = "PreviousButton"
-//nomejogo,nomeoponente,data,hora
 data class FavoriteGameScreenState(
     @StringRes val title: Int?,
     val game: Game
@@ -47,10 +46,8 @@ data class FavoriteGameScreenState(
 fun FavoriteGameScreen(
     onBackRequest: () -> Unit,
     state: FavoriteGameScreenState,
-    //onMoveRequested: (Coordinate) -> Unit = { },
     onPreviousRequest: () -> Unit = { },
     onNextRequest: () -> Unit = { },
-    //onForfeitRequested: () -> Unit = { },
 ) {
     GomokuRoyaleTheme {
         Scaffold(

@@ -1,10 +1,9 @@
 package model
 
-import android.icu.text.CaseMap.Title
 import kotlin.math.abs
 
 /**
- * Represents a Tic-Tac-Toe board. Instances are immutable.
+ * Represents a GomokuRoyale board. Instances are immutable.
  * @property turn   The next player to move
  * @property moves  The board moves
  */
@@ -15,11 +14,6 @@ data class Board(
     val openingrule: openingrule = model.openingrule.PRO,
     val boardSize :Int = 15,
     val moves :moves = emptyMap()
-    /*val tiles: List<List<Piece?>> =
-        List(
-            size = BOARD_SIDE,
-            init = { List(size = BOARD_SIDE, init = { null }) }
-        )*/
 ) {
 
     companion object {
@@ -31,8 +25,7 @@ data class Board(
             boardSize = if (variantes ==model.variantes.OMOK)19 else 15,
             moves = buildMap {
                 var i =0
-                //val moves = emptyMap<Cell,Player>().toMutableMap()
-                while (i < moves.size){//1A 10A
+                while (i < moves.size){
 
                     val pairParts = moves[i].split(':')
                     val rowNumbers =  pairParts[0].getUntilLetter()
@@ -66,12 +59,11 @@ data class Board(
      * @param at    the move's coordinates
      * @return the [Marker] instance that made the move, or null if the position is empty
      */
-    fun getMove(at: Coordinate): Player? = moves[at]//tiles[at.row][at.column]
+    fun getMove(at: Coordinate): Player? = moves[at]
 
     /**
      * Makes a move at the given coordinates and returns the new board instance.
-     * @param at    the board's coordinate
-     * @throws IllegalArgumentException if the position is already occupied
+     * @param at the board's coordinate
      * @return the new board instance
      */
     fun makeMove(at: Coordinate): Board {
@@ -90,7 +82,7 @@ data class Board(
     private fun openingRuleVerify( at: Coordinate): Boolean {
         when(openingrule){
             model.openingrule.PRO ->{
-                val elementCount = countBoardElementes()
+                val elementCount = countBoardElements()
                 if (elementCount==0){
                     val middleIndex = boardSize /2
                     return at == Coordinate(middleIndex,middleIndex,boardSize)
@@ -100,7 +92,7 @@ data class Board(
                 }else return true
             }
             model.openingrule.LONGPRO->{
-                val elementCount = countBoardElementes()
+                val elementCount = countBoardElements()
                 if (elementCount==0){
                     val middleIndex = boardSize/2
                     return at == Coordinate(middleIndex,middleIndex,boardSize)
@@ -119,7 +111,7 @@ data class Board(
         return if (rowdist>=coldist) rowdist else coldist
     }
 
-    private fun countBoardElementes():Int=moves.size
+    private fun countBoardElements():Int=moves.size
 
     /**
      * Converts this instance to a list of moves.
@@ -137,7 +129,6 @@ data class Board(
  */
 fun Board.isTied(): Boolean = moves.size == boardSize*boardSize && !hasWon(Player.WHITE) && !hasWon(
     Player.BLACK)
-//toMovesList().all { it != null } && !hasWon(Piece.WHITE) && !hasWon(Piece.BLACK)
 
 /**
  * Extension function that checks whether the given marker has won the game

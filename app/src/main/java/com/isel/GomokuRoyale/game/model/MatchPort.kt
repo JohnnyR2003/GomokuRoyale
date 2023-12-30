@@ -25,21 +25,17 @@ class GameEnded(game: Game, val winner: Player? = null) : GameEvent(game)
 interface Match {
 
     /**
-     * Starts the match. The first to make a move is the challenger. The game
-     * is only actually in progress after its initial state is published on the flow.
      * @param [localPlayer] the local player information
-     * @param [challenge] the challenge bearing the players' information
+     * @param [gameId] the game identifier
      * @return the flow of game state change events, expressed as [GameEvent] instances
      * @throws IllegalStateException if a game is in progress
      */
 
     //fun getFavourites() :List<GameInfo>
-    fun start(localPlayer: Player, gameId: UUID, board: Board): Flow<GameEvent>
+    fun start(localPlayer: Player, gameIds: UUID, board: Board): Flow<GameEvent>
 
     /**
      * Makes a move at the given coordinates.
-     * @throws IllegalStateException if a game is not in progress or the move is illegal,
-     * either because it's not the local player turn or the position is not free.
      */
     suspend fun makeMove(at: Coordinate)
 

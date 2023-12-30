@@ -20,14 +20,13 @@ import com.isel.GomokuRoyale.R
 import com.isel.GomokuRoyale.ui.TopBar
 import com.isel.GomokuRoyale.ui.theme.GomokuRoyaleTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import com.isel.GomokuRoyale.Favourites.GameInfo
 import com.isel.GomokuRoyale.game.ui.GameInfoView
 import com.isel.GomokuRoyale.ui.NavigationHandlers
 
-const val PlayerFoundViewTag = "PlayerFoundView"
-const val GamesViewTag = "RankingsView"
-const val LeaderboardScreenTag = "LeaderboardScreenTag"
+const val GamesViewTag = "GamesView"
 const val FavouriteScreenTag = "FavouriteScreenTag"
 
 data class FavouritesListState(
@@ -65,7 +64,7 @@ fun FavouritesScreen(
                     Text(
                         text = stringResource(id = R.string.favourite_games_list),
                         style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.primaryContainer
+                        color = Color(0xFF000000)
                     )
                     LazyColumn(
                         contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),

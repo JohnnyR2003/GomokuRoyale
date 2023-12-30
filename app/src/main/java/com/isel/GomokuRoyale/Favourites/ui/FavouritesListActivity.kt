@@ -43,7 +43,6 @@ class FavouritesListActivity : ComponentActivity(){
         setContent{
             val error by viewModel.rError.collectAsState()
             val games by viewModel.favourites.collectAsState()
-            val selectedgame by viewModel.selectedGame.collectAsState()
             FavouritesScreen(
                 state = FavouritesListState(
                     games,
@@ -76,7 +75,6 @@ class FavouritesListActivity : ComponentActivity(){
                 finally {
                     viewModel.leaveFavourites()
                     finish()
-
                 }
             }
         }

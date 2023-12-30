@@ -74,6 +74,11 @@ class MatchFirebase(private val db: FirebaseFirestore) : Match {
                 }
             }
 
+    /** publishes a specific game from the collection ONGOING
+     * @param [game] the game to be published
+     * @param [gameId] the game identifier
+     */
+
     private suspend fun publishGame(game: Game, gameId: String) {
         db.collection(ONGOING)
             .document(gameId)
@@ -81,68 +86,28 @@ class MatchFirebase(private val db: FirebaseFirestore) : Match {
             .await()
     }
 
+    /** updates a specific game from the collection ONGOING
+     * @param [game] the game to be updated
+     * @param [gameId] the game identifier
+     */
+
     private suspend fun updateGame(game: Game, gameId: String) {
         db.collection(ONGOING)
             .document(gameId)
             .update(game.board.toDocumentContent())
             .await()
     }
-    //saves a specific game from the collection ONGOING in a new collection called favourites
+
+    /** saves a specific game from the collection ONGOING in a new collection called favourites
+     * @param [game] the game to be saved
+     * @param [gameId] the game identifier
+     */
     private suspend fun saveGame(game: Game, gameId: String) {
         db.collection("favourites")
             .document(gameId)
             .set(game.board.toDocumentContent())
             .await()
     }
-
-    /*
-        override fun getFavourites(): List<GameInfo> {
-            val gameList = mutableListOf<GameInfo>()
-            db.collection("favourites")
-                .get()
-                .addOnSuccessListener { result ->
-                    for (document in result) {
-                        val gameid = document.id
-                        gameList.add(GameInfo(
-                            title = gameid,
-                            opponent = document.getString("turn").toString(),
-                            date = document.getDate("date").toString(),
-                            time = document.getDate("time").toString())
-                        )
-                    }
-                }
-            return gameList
-        }
-       override fun getFavourites(): Flow<List<GameInfo>> {
-            return callbackFlow {
-                val gameSubscription = db.collection("favourites")
-                    .addSnapshotListener { snapshot, error ->
-                        when {
-                            error != null -> close(error)
-                            snapshot != null -> {
-                                val gameid = snapshot.documents.mapNotNull { it.id }
-                                val gameDate = snapshot.documents.mapNotNull { it.getDate(gameid.toString()) }
-                                val gameTime = snapshot.documents.mapNotNull { it.getTimestamp(gameid.toString()) }
-                                val gameList = snapshot.documents.mapNotNull { it.toMatchStateOrNull() }
-                                    .map { GameInfo(
-                                        title = gameid.toString(),
-                                        opponent = it.first.turn.other().name,
-                                        date = gameDate.toString(),
-                                        time = gameTime.toString(),
-
-                                    ) }
-                                trySend(gameList)
-                            }
-                        }
-                    }
-                awaitClose {
-                    gameSubscription.remove()
-                }
-            }
-        }*/
-
-
-
     override fun start(localPlayer: Player, gameIds: UUID, board: Board): Flow<GameEvent> {
         check(onGoingGame == null)
 
@@ -157,8 +122,6 @@ class MatchFirebase(private val db: FirebaseFirestore) : Match {
             try {
                 publishGame(newGame, gameId)
                 saveGame(newGame, gameId)
-
-
 
                 gameSubscription = subscribeGameStateUpdated(
                     localPlayerMarker = newGame.localPlayer,

@@ -29,7 +29,6 @@ fun GameInfoView(
         modifier = Modifier
             .fillMaxWidth().clickable { onPlayerSelected(gameInfo) }
     ) {
-
         Row(
             horizontalArrangement = Arrangement.SpaceAround,
         ) {
@@ -42,10 +41,7 @@ fun GameInfoView(
                     modifier = Modifier
                         .padding(start = 8.dp, top = 8.dp, end = 8.dp, bottom = 8.dp),
                 )
-                /* */
             }
-
-
             Column {
                 Text(
                     text = "opponent",
@@ -55,11 +51,7 @@ fun GameInfoView(
                     modifier = Modifier
                         .padding(start = 8.dp, top = 8.dp, end = 8.dp, bottom = 8.dp),
                 )
-                /*
-                     */
-
             }
-
             Column {
                 Text(
                     text = "date",
@@ -69,7 +61,6 @@ fun GameInfoView(
                     modifier = Modifier
                         .padding(start = 8.dp, top = 8.dp, end = 8.dp, bottom = 8.dp),
                 )
-                /**/
             }
             Column {
                 Text(
@@ -80,7 +71,6 @@ fun GameInfoView(
                     modifier = Modifier
                         .padding(start = 8.dp, top = 8.dp, end = 8.dp, bottom = 8.dp),
                 )
-                /**/
             }
         }
         Row(
@@ -108,7 +98,7 @@ fun GameInfoView(
             }
             Column {
                 Text(
-                    text = gameInfo.date.toDate().toString(),
+                    text = gameInfo.date.toDate().toString().substring(0,10) + gameInfo.date.toDate().toString().substring(23,28),
                     style = MaterialTheme.typography.labelSmall,
                     textAlign = TextAlign.Center,
                     maxLines = 1,
@@ -118,7 +108,7 @@ fun GameInfoView(
             }
             Column {
                 Text(
-                    text = gameInfo.time.toDate().toString(),
+                    text = gameInfo.time.toDate().toString().substring(12,23),
                     style = MaterialTheme.typography.labelSmall,
                     textAlign = TextAlign.Center,
                     maxLines = 1,
@@ -130,74 +120,3 @@ fun GameInfoView(
     }
 }
 
-
-/*
-@Composable
-fun GameInfoView(
-    gameInfo: GameInfo,
-    onPlayerSelected: (GameInfo) -> Unit
-) {
-    Card(
-        shape = MaterialTheme.shapes.medium,
-        colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.primaryContainer
-        ),
-        border = BorderStroke(
-            width = 1.dp,
-            color = MaterialTheme.colorScheme.onSecondaryContainer
-        ),
-        modifier = Modifier
-            .fillMaxWidth()
-            .clickable { onPlayerSelected(gameInfo) }
-            .testTag(PlayerInfoViewTag)
-    ) {
-        Column(
-            modifier = Modifier.padding(8.dp)
-        ) {
-            Text(
-                text = gameInfo.time,
-                style = MaterialTheme.typography.titleMedium,
-                textAlign = TextAlign.Start,
-                maxLines = 1,
-                modifier = Modifier.fillMaxWidth()
-            )
-        }
-        Column {
-            Text(
-                text = gameInfo.opponent,
-                style = MaterialTheme.typography.labelMedium,
-                textAlign = TextAlign.Start,
-                color = MaterialTheme.colorScheme.onSecondaryContainer,
-                maxLines = 1,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 8.dp, end = 8.dp),
-            )
-        }
-        Column {
-            Text(
-                text = gameInfo.date,
-                style = MaterialTheme.typography.labelLarge,
-                textAlign = TextAlign.Start,
-                color = MaterialTheme.colorScheme.onSecondaryContainer,
-                maxLines = 1,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 8.dp, end = 8.dp),
-            )
-        }
-        Column {
-            Text(
-                text = gameInfo.time,
-                style = MaterialTheme.typography.labelMedium,
-                textAlign = TextAlign.Start,
-                color = MaterialTheme.colorScheme.onSecondaryContainer,
-                maxLines = 1,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 8.dp, end = 8.dp),
-            )
-        }
-
-    }
-}*/

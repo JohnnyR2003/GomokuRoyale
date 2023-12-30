@@ -27,13 +27,6 @@ import java.util.*
 
 class FavouritesActivity: ComponentActivity() {
 
-    /*private val viewModel by viewModels<GameScreenViewModel> {
-        viewModelInit {
-            val app = (application as DependenciesContainer).match
-            GameScreenViewModel(app)
-        }
-    }*/
-
     companion object {
         const val MATCH_INFO_EXTRA = "MATCH_INFO_EXTRA"
         fun navigateTo(origin: Context,aGame: Game) {
@@ -63,63 +56,30 @@ class FavouritesActivity: ComponentActivity() {
             val currentMove = remember {
                 mutableStateOf(0)
             }
-
             val currentGame = remember {
                 mutableStateOf(Game(board = Board(variantes= board.variantes, openingrule = board.openingrule)))
             }
-            //val currentState = viewModel.state
             val title = null
-            /*when (currentState) {
-            MatchState.STARTING -> R.string.game_screen_waiting
-            MatchState.IDLE -> R.string.game_screen_waiting
-            else -> null
-        }*/
 
             FavoriteGameScreen(
                 onBackRequest = { finish() },
                 state = FavoriteGameScreenState(title, currentGame.value),
-                //onMoveRequested = { at -> viewModel.makeMove(at) },
                 onNextRequest = {
                     if (currentMove.value< board.moves.size) {
-                        //viewModel.end()
                         currentMove.value++
-                        //viewModel.state = MatchState.IDLE
                         val board1 = getCurrentBoard(currentMove.value)
                         currentGame.value = Game(board1.turn,if(board1.moves.size==board.moves.size) matchInfo.forfeitedBy else null,board1)
-                        //viewModel.startMatch(localPlayer = board.turn, board = board)
                     }
                 },
                 onPreviousRequest = {
                     if (currentMove.value>0) {
-                        //viewModel.end()
                         currentMove.value--
                         val board1 = getCurrentBoard(currentMove.value)
                         currentGame.value = Game(board1.turn,if(board1.moves.size==board.moves.size) matchInfo.forfeitedBy else null,board1)
-                        //viewModel.startMatch(localPlayer = board.turn, board = board)
                     }
                 },
-                //onForfeitRequested = { viewModel.forfeit() }
             )
-
-            /*when (currentState) {
-                MatchState.STARTING -> StartingMatchDialog()
-                MatchState.FINISHED -> MatchEndedDialog(
-                    localPLayerMarker = currentGame.localPlayer,
-                    result = currentGame.getResult(),
-                    onDismissRequested = { finish() }
-                )
-
-                else -> {}
-            }*/
         }
-
-        /*if (viewModel.state == MatchState.IDLE)
-            viewModel.startMatch(localPlayer = Player.BLACK, board = board)
-        */
-        /*onBackPressedDispatcher.addCallback(owner = this, enabled = true) {
-            viewModel.forfeit()
-            finish()
-        }*/
     }
 
     @Suppress("deprecation")
@@ -176,13 +136,5 @@ class FavouritesActivity: ComponentActivity() {
         }
         val turn = if (y %2 == 0)Player.BLACK else Player.WHITE
         return Board(turn = turn, variantes = board.variantes, openingrule = board.openingrule, boardSize = board.boardSize, moves = moves.toMap())
-    }
-    private fun getCurrentMove(currentMove: Int): Map.Entry<Coordinate, Player>? {
-        var y = 1
-        for(i in board.moves){
-            if (y == currentMove){return i}
-            y++
-        }
-        return null
     }
 }

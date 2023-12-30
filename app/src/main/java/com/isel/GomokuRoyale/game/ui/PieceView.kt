@@ -1,6 +1,5 @@
 package ui
 
-import android.graphics.drawable.ColorDrawable
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -10,8 +9,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -23,7 +20,7 @@ import model.Player
 internal const val TileViewTag = "TileView"
 
 @Composable
-fun TileView(
+fun PieceView(
     move: Player?,
     enabled: Boolean,
     onSelected: () -> Unit,
@@ -54,7 +51,7 @@ fun TileView(
 @Composable
 private fun TileViewCirclePreview() {
     GomokuRoyaleTheme {
-        TileView(move = Player.WHITE, enabled = true, onSelected = { })
+        PieceView(move = Player.WHITE, enabled = true, onSelected = { })
     }
 }
 
@@ -63,7 +60,7 @@ private fun TileViewCirclePreview() {
 @Composable
 private fun TileViewCrossPreview() {
     GomokuRoyaleTheme {
-        TileView(move = Player.BLACK, enabled = true, onSelected = { })
+        PieceView(move = Player.BLACK, enabled = true, onSelected = { })
     }
 }
 
@@ -71,6 +68,6 @@ private fun TileViewCrossPreview() {
 @Composable
 private fun TileViewEmptyPreview() {
     GomokuRoyaleTheme {
-        TileView(move = null, enabled = true, onSelected = { })
+        PieceView(move = null, enabled = true, onSelected = { })
     }
 }
