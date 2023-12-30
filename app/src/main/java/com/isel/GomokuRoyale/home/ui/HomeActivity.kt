@@ -13,7 +13,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.isel.GomokuRoyale.DependenciesContainer
-import com.isel.GomokuRoyale.Favourites.ui.FavouritesActivity
+import com.isel.GomokuRoyale.Favourites.ui.FavouritesListActivity
 import com.isel.GomokuRoyale.about.ui.AboutActivity
 import com.isel.GomokuRoyale.game.Loaded
 import com.isel.GomokuRoyale.game.getOrNull
@@ -73,7 +73,7 @@ private val vm by viewModels<HomeViewModel> {
             HomeView(
                 state = HomeScreenState(null, loggedState),
                 onFavouritesRequest = {
-                    FavouritesActivity.navigateTo(this)
+                    FavouritesListActivity.navigateTo(this)
                                       },
                 onFindGameRequest = {
                     doNavigation(userInfo = userInfo.getOrNull())

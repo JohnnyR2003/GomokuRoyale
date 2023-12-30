@@ -219,6 +219,7 @@ const val TIME_FIELD = "time"
 const val OPPONENT_FIELD = "opponent"
 const val TITLE_FIELD = "title"
 
+
 /**
  * [Board] extension function used to convert an instance to a map of key-value
  * pairs containing the object's properties
@@ -232,6 +233,7 @@ fun Board.toDocumentContent() = mapOf(
     TIME_FIELD to Timestamp.now(),
     OPPONENT_FIELD to turn.other().name,
     TITLE_FIELD to this.title,
+
 
 
 )

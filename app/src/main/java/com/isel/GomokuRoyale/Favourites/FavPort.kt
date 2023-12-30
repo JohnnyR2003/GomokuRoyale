@@ -1,6 +1,8 @@
 package com.isel.GomokuRoyale.Favourites
 
 import kotlinx.coroutines.flow.Flow
+import model.Board
+import model.Game
 
 /**
  * Sum type used to describe events occurring while the player is in the lobby.
@@ -32,7 +34,7 @@ interface Fav {
     fun enterAndObserve(): Flow<FavEvent>
 
    suspend fun leave()
-
+    suspend fun select(info: GameInfo): Game
 
 
 }

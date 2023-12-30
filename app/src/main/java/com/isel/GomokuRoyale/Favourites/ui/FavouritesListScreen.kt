@@ -21,7 +21,6 @@ import com.isel.GomokuRoyale.ui.TopBar
 import com.isel.GomokuRoyale.ui.theme.GomokuRoyaleTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.ui.tooling.preview.Preview
-import com.google.firebase.Timestamp
 import com.isel.GomokuRoyale.Favourites.GameInfo
 import com.isel.GomokuRoyale.game.ui.GameInfoView
 import com.isel.GomokuRoyale.ui.NavigationHandlers
@@ -41,6 +40,7 @@ data class FavouritesListState(
 @Composable
 fun FavouritesScreen(
     state: FavouritesListState = FavouritesListState(),
+    onNavigateToGame: (GameInfo) -> Unit = {},
     onBackRequest: () -> Unit,
     onErrorReset: () -> Unit,
 ) {
@@ -74,7 +74,9 @@ fun FavouritesScreen(
                         userScrollEnabled = true,
                     ) {
                         items(state.gameList.size) {
-                            GameInfoView(state.gameList[it], onPlayerSelected = { gameInfo ->  })
+                            GameInfoView(
+                                state.gameList[it],
+                                onPlayerSelected = { gameInfo -> onNavigateToGame(gameInfo)})
                         }
                     }
                 }else{

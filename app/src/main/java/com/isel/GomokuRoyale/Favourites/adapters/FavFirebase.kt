@@ -2,6 +2,7 @@ package com.isel.GomokuRoyale.Favourites.adapters
 
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.DocumentReference
+import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ListenerRegistration
 import com.google.firebase.firestore.QueryDocumentSnapshot
@@ -10,11 +11,22 @@ import com.isel.GomokuRoyale.Favourites.Fav
 import com.isel.GomokuRoyale.Favourites.FavEvent
 import com.isel.GomokuRoyale.Favourites.GameInfo
 import com.isel.GomokuRoyale.Favourites.RosterUpdated
+import com.isel.GomokuRoyale.game.adapters.toMovesList
 import kotlinx.coroutines.channels.ProducerScope
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.tasks.await
+import model.Board
+import model.Coordinate
+import model.Game
+import model.Player
+import model.moves
+import model.openingrule
+import model.toOpeningRule
+import model.toPlayer
+import model.toVariante
+import model.variantes
 
 const val FAVOURITES = "favourites"
 
@@ -22,6 +34,19 @@ class UnreachableFavouritesException : Exception()
 class FavFirebase(private val db: FirebaseFirestore) : Fav {
 
     private var state: FavState = Idle
+
+    override suspend fun select(info: GameInfo): Game {
+        val snapshot = db.collection(FAVOURITES).whereEqualTo("title", info.title).get().await()
+        val board = Board.fromMovesList(
+            title = info.title,
+            turn =  snapshot.documents[0].get("turn").toPlayers(),
+            variantes = snapshot.documents[0].get("variant").toVariantes(),
+            openingrule = snapshot.documents[0].get("openingrule").toOpeningRules(),
+            moves = snapshot.documents[0].get("board").toMoves(),
+            )
+        return Game(board = board)
+    }
+
 
     fun QueryDocumentSnapshot.toGameInfo():GameInfo{
         return GameInfo(
@@ -90,6 +115,26 @@ class FavFirebase(private val db: FirebaseFirestore) : Fav {
     }
     fun QuerySnapshot.toGameList() = map { it.toGameInfo() }
 }
+
+private fun Any?.toPlayers(): Player {
+    return this.toString().toPlayer()
+}
+
+private fun Any?.toVariantes(): variantes {
+    return this.toString().toVariante()
+}
+
+private fun Any?.toOpeningRules(): openingrule {
+    return this.toString().toOpeningRule()
+}
+
+private fun Any?.toMoves(): List<String> {
+    return this.toString().toMovesList()
+}
+
+
+
+
 
 
 private sealed class FavState

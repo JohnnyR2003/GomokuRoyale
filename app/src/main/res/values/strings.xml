@@ -48,4 +48,6 @@
     <string name="failed_to_save_preferences_error_dialog_text">Failed to save user info to local data store. Is there any space left on your device? </string>
     <string name="failed_to_save_preferences_error_dialog_retry_button">Retry</string>
     <string name="favourite_screen_title">Favourite games</string>
+    <string name="game_screen_next">"+"</string>
+    <string name="game_screen_previous">"-"</string>
 </resources>

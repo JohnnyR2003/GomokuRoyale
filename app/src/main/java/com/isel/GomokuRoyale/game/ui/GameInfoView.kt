@@ -1,5 +1,6 @@
 package com.isel.GomokuRoyale.game.ui
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -20,13 +21,13 @@ const val PlayerInfoViewTag = "PlayerInfoView"
 @Composable
 fun GameInfoView(
     gameInfo: GameInfo,
-    onPlayerSelected: (GameInfo) -> Unit
+    onPlayerSelected: (GameInfo) -> Unit = {}
 ){
     Card(
         shape = MaterialTheme.shapes.medium,
         //elevation = 4.dp,
         modifier = Modifier
-            .fillMaxWidth()
+            .fillMaxWidth().clickable { onPlayerSelected(gameInfo) }
     ) {
 
         Row(

@@ -5,15 +5,21 @@ import androidx.lifecycle.viewModelScope
 import com.isel.GomokuRoyale.Favourites.Fav
 import com.isel.GomokuRoyale.Favourites.GameInfo
 import com.isel.GomokuRoyale.Favourites.RosterUpdated
+import com.isel.GomokuRoyale.Favourites.ui.FavouritesActivity
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import model.Board
+import model.Game
 
 class FavouritesViewModel(val list: Fav): ViewModel() {
 
     private val _favourites: MutableStateFlow<List<GameInfo>> = MutableStateFlow(emptyList())
     val favourites = _favourites.asStateFlow()
+
+    private val _selectedGame: MutableStateFlow<PendingReplay?> = MutableStateFlow(null)
+    val selectedGame = _selectedGame.asStateFlow()
 
     private val error : MutableStateFlow<String?> = MutableStateFlow(null)
     val rError = error.asStateFlow()
@@ -40,6 +46,18 @@ class FavouritesViewModel(val list: Fav): ViewModel() {
         _favourites.value = list.getFavourites()
     }
 
+    fun selectReplay(info: GameInfo): Job? {
+        val currentMonitor = lobbyMonitor
+        return if (currentMonitor != null) {
+            viewModelScope.launch {
+                val game = list.select(info)
+                _selectedGame.value = SentReplay(
+                    game
+                )
+            }
+        } else null
+    }
+
     suspend fun leaveFavourites(){
         list.leave()
     }
@@ -47,6 +65,8 @@ class FavouritesViewModel(val list: Fav): ViewModel() {
         error.value = null
     }
 
-
-
 }
+
+sealed class PendingReplay(val game:Game)
+class SentReplay(game: Game)
+    : PendingReplay(game)

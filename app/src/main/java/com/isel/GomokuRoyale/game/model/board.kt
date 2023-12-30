@@ -109,6 +109,8 @@ data class Board(
                     return distanceBetweenPieces(middleCoordinate,at) >= 4
                 }else return true
             }
+
+            else -> {return true}
         }
     }
     private fun distanceBetweenPieces(firstCoordinate: Coordinate,secondCoordinate: Coordinate):Int {
@@ -156,7 +158,9 @@ private fun boardIsWin(board: Board, player: Player, nOfPiecesToWin:Int):Boolean
     for (r in 0 until board.boardSize){
         for (c in 0 until board.boardSize){
             val lastCoordinate = Coordinate(r,c,board.boardSize)
-            if (board.moves[lastCoordinate] == null) continue
+            if (board.moves[lastCoordinate] == null || board.moves[lastCoordinate] != player) continue/**se nesta coordenada não for do player,não vale a pena perder tempo a confirmar. antes null*/
+
+
             // Check one direction
             for ((dx, dy) in directions) {
                 var count = 1

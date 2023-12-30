@@ -35,6 +35,11 @@
         android:windowSoftInputMode="adjustPan">
         </activity>
         <activity
+        android:name="com.isel.GomokuRoyale.Favourites.ui.FavouritesListActivity"
+        android:exported="false"
+        android:windowSoftInputMode="adjustPan">
+        </activity>
+        <activity
         android:name="com.isel.GomokuRoyale.Favourites.ui.FavouritesActivity"
         android:exported="false"
         android:windowSoftInputMode="adjustPan">
