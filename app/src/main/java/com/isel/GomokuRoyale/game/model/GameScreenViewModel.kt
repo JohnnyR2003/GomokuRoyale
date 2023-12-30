@@ -63,7 +63,9 @@ class GameScreenViewModel(private val match: Match) : ViewModel() {
     fun makeMove(at: Coordinate): Job? =
         if (state == MatchState.STARTED) {
             viewModelScope.launch {
-                match.makeMove(at)
+                this.coroutineContext.runCatching {
+                    match.makeMove(at)
+                }
             }
         }
         else null
