@@ -48,7 +48,7 @@ class FavouritesActivity: ComponentActivity() {
                                 aGame.board.variantes.toString(),
                                 aGame.board.openingrule.toString(),
                                 aGame.board.boardSize,
-                                aGame.board.moves.map { it.key.toString() }.joinToString(","),
+                                aGame.board.toMovesList().joinToString(","),
                                 aGame.forfeitedBy))
                     }
                 )
@@ -149,7 +149,7 @@ class FavouritesActivity: ComponentActivity() {
         val forfeitedBy: Player?,
 
 
-    ) : Parcelable
+        ) : Parcelable
 
     private fun MatchInfo(aGame: Game): MatchInfo {
         val opponent = aGame.localPlayer.other()

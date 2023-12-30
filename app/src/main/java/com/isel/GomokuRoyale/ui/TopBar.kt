@@ -26,13 +26,10 @@ import com.isel.GomokuRoyale.ui.theme.GomokuRoyaleTheme
 
 
 data class NavigationHandlers (
+
     val onBackRequested: (() -> Unit)? = null,
     val onInfoRequested: (() -> Unit)? = null,
-    val onLogoutRequested: (() -> Unit)? = null,
-    val onRefreshRequested: (() -> Unit)? = null,
-    val onChallengeRequested: (() -> Unit)? = null,
-    //val onLeaveRequested: (() -> Unit)? = null,
-    //val onInspectRequested: (() -> Unit)? = null,
+
 )
 
 // Test tags for the TopBar navigation elements
@@ -47,9 +44,6 @@ val gradientColor = listOf(Color(0xFFff00cc), Color(0xFF333399))
 fun TopBar(navigation: NavigationHandlers = NavigationHandlers(),text:String = "Gomoku Royale") {
     TopAppBar(
         modifier = Modifier.testTag("TopBar"),
-        /*colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-            containerColor = Color(0xFF9452A5),
-        ),*/
         title = { Text(text = text) },
         navigationIcon = {
             if (navigation.onBackRequested != null) {
@@ -65,17 +59,6 @@ fun TopBar(navigation: NavigationHandlers = NavigationHandlers(),text:String = "
             }
         },
         actions = {
-            if(navigation.onChallengeRequested != null){
-                IconButton(
-                    onClick = navigation.onChallengeRequested,
-                    modifier = Modifier.testTag(NavigateBackTestTag)
-                ) {
-                    Icon(
-                        imageVector = Icons.Default.Add,
-                        contentDescription = stringResource(id = R.string.top_bar_add_challenge)
-                    )
-                }
-            }
             if (navigation.onInfoRequested != null) {
                 IconButton(
                     onClick = navigation.onInfoRequested,

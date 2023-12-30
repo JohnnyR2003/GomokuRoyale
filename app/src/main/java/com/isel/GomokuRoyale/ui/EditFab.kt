@@ -51,14 +51,6 @@ private fun EditFabEditModePreview() {
 
 @Preview(showBackground = true)
 @Composable
-private fun EditFabUpdateModePreview() {
-    GomokuRoyaleTheme {
-        EditFab(onClick = { }, mode = FabMode.Save)
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
 private fun DisabledEditFabUpdateModePreview() {
     GomokuRoyaleTheme {
         EditFab(mode = FabMode.Save)

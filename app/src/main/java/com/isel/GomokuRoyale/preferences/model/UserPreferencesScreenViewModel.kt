@@ -52,9 +52,6 @@ class UserPreferencesScreenViewModel(
         }
     }
 
-     suspend fun getUserInfo(): UserInfo? {
-        return repository.getUserInfo()
-    }
 
     /**
      * Resets the view model to the idle state. From the idle state, the user information

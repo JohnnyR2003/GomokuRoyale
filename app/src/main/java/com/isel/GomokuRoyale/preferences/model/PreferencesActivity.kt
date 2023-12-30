@@ -16,6 +16,7 @@ import com.isel.GomokuRoyale.game.Saved
 import com.isel.GomokuRoyale.game.getOrNull
 import com.isel.GomokuRoyale.game.idle
 import com.isel.GomokuRoyale.game.ui.GameActivity
+import com.isel.GomokuRoyale.home.model.HomeViewModel
 import com.isel.GomokuRoyale.preferences.ui.PreferencesScreen
 import com.isel.GomokuRoyale.ui.ErrorAlert
 import com.isel.GomokuRoyale.utils.viewModelInit
@@ -26,11 +27,8 @@ import model.Player
 const val FINISH_ON_SAVE_EXTRA = "FinishOnSaveExtra"
 
 /**
- * The screen used to display and edit the user information to be used to identify
- * the player in the lobby.
+ * The screen used to display and edit the user's game preferences.
  */
-
-
 class PreferencesActivity : ComponentActivity() {
 
     companion object {
@@ -54,7 +52,7 @@ class PreferencesActivity : ComponentActivity() {
     }
 
     private val vm by viewModels<UserPreferencesScreenViewModel> {
-        viewModelInit { UserPreferencesScreenViewModel((application as DependenciesContainer).userInfoRepo) }
+        UserPreferencesScreenViewModel.factory((application as DependenciesContainer).userInfoRepo)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

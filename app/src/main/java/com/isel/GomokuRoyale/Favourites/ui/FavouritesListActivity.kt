@@ -75,6 +75,8 @@ class FavouritesListActivity : ComponentActivity(){
                 }
                 finally {
                     viewModel.leaveFavourites()
+                    finish()
+
                 }
             }
         }

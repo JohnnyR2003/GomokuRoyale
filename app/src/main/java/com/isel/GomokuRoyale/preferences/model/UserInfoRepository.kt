@@ -1,7 +1,6 @@
 package com.isel.GomokuRoyale.preferences.model
 
 interface UserInfoRepository {
-    //var userInfo: UserInfo?
     /**
      * Gets the user info if it exists, null otherwise.
      */

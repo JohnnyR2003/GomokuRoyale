@@ -52,18 +52,11 @@ fun HomeView(
                 .fillMaxSize()
                 .testTag(HomeScreenTag),
             topBar = {
-                if (state.loggedState) {
-                    TopBar(
+                TopBar(
                         NavigationHandlers(
-                            onLogoutRequested = { /*onLogoutRequest()*/ },
                             onInfoRequested = { onInfoRequest() }),
                         ""
                     )
-                } else {
-                    TopBar(
-                        NavigationHandlers(onInfoRequested = { onInfoRequest() }) , ""
-                    )
-                }
             }
         ) {
             Column(
@@ -93,18 +86,6 @@ fun HomeView(
                     testTag = "ProfileButton"
 
                 )
-                /*
-                ButtonView(onClickRequest = { onLeaderboardRequest() },
-                    name = stringResource(id = R.string.home_leaderboard_button),
-                    testTag = "LeaderboardButton"
-                )
-                if (!state.loggedState) {
-                    ButtonView(
-                        onClickRequest = { onSignInOrSignUpRequest() },
-                        name = stringResource(id = R.string.home_signinup_button),
-                        testTag = "SignInAndSignUpButton"
-                    )
-                }*/
                 ButtonView(
                     onClickRequest = { onExitRequest() },
                     name = stringResource(id = R.string.home_exit_button),

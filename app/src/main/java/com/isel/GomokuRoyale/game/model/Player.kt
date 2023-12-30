@@ -1,7 +1,11 @@
 package model
 
+import kotlinx.android.parcel.RawValue
 
-typealias moves = Map<Coordinate, Player>
+
+typealias moves = @RawValue Map<Coordinate, Player>
+
+
 
 const val GAME_SIZE = 225
 const val OMOK_DIM = 19
