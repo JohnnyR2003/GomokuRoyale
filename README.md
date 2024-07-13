@@ -1,6 +1,6 @@
 # Mobile Gomoku Royale (for Android)
 
-Welcome to **Mobile Gomoku Royale**, a captivating mobile version of the classic Gomoku game. This application brings the timeless strategy game to your fingertips, allowing you to sharpen your skills against AI opponents.
+Welcome to **Mobile Gomoku Royale**, a captivating mobile version of the classic Gomoku game. This application brings the timeless strategy game to your fingertips, allowing you to sharpen your skills against opponents on the same device.
 
 ## Features
 
