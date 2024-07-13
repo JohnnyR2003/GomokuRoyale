@@ -4,6 +4,6 @@ Welcome to **Mobile Gomoku Royale**, a captivating mobile version of the classic
 
 ## Features
 
-- **Single Player Mode**: Practice and improve your skills against AI opponents with varying difficulty levels.
+- **Single Player Mode**: Practice and improve your skills against someone else on the same device.(AI opponents TBA)
 - **Customizable Game Settings**: Choose board sizes and set your preferred rules for a personalized experience.
 - **User Profiles**: Create and manage your player profile, track your progress, and view your game statistics.(still in development)
